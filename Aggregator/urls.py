@@ -21,6 +21,7 @@ from articles import views
 
 urlpatterns = [
     url(r'^$',views.Homepage,name='home'),
+    url(r'users_only/',views.LoggedInView.as_view(),name='users_only'),
     path('admin/', admin.site.urls),
 
 ]
