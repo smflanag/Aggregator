@@ -20,7 +20,7 @@ from django.urls import path
 from articles import views
 
 urlpatterns = [
-    url(r'',views.Homepage,name='home'),
+    url(r'^$',views.Homepage,name='home'),
     path('admin/', admin.site.urls),
 
 ]
