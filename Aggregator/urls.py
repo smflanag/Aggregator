@@ -17,11 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
-from articles import views
+from accounts import views
 
 urlpatterns = [
     url(r'^$',views.Homepage,name='home'),
     url(r'users_only/',views.LoggedInView.as_view(),name='users_only'),
-    path('admin/', admin.site.urls),
+    url(r'login/',views.CreateUser.as_view(),name='login'),
+    url(r'admin/', admin.site.urls),
 
 ]
