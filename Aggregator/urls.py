@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^$',views.Homepage,name='home'),
     url(r'^users_only/$',views.LoggedInView.as_view(),name='users_only'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^signup/$',views.SignUp.as_view(),name='signup'),
+    url(r'^signup/$',views.SignUp,name='signup'),
 ]

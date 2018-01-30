@@ -11,7 +11,7 @@ class RegistrationForm(UserCreationForm):
         model = get_user_model()
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['username'].label = 'Display Name'
-    #     self.fields['email'].label = 'Email Address'
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].label = 'Display Name'
+        self.fields['email'].label = 'Email Address'
