@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.urls import include
 
 from accounts import views
 
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^users_only/$',views.LoggedInView.as_view(),name='users_only'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^signup/$',views.SignUp,name='signup'),
+    url(r'^accounts/', include('django.contrib.auth.urls'))
 ]
