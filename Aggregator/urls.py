@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^users_only/$',views.LoggedInView.as_view(),name='users_only'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^signup/$',views.SignUp,name='signup'),
-    url(r'^accounts/', include('django.contrib.auth.urls'))
+    url(r'^accounts/$', include('django.contrib.auth.urls'))
 ]
