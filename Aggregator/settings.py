@@ -17,7 +17,7 @@ from os.path import join
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-
+LOGIN_REDIRECT_URL = 'home'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -28,7 +28,7 @@ SECRET_KEY = '(*(r94es!atjcm!$q*w*^fue&r5_8$6p5al&dx6me)sdep=nrd'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 # Application definition
 

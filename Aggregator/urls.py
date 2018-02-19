@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^$',views.Homepage,name='home'),
     url(r'^users_only/$',views.LoggedInView.as_view(),name='users_only'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^signup/$',views.SignUp,name='signup'),
-    url(r'^accounts/$', include('django.contrib.auth.urls'))
+    url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.get_user_profile),
+    url(r'^accounts/$', include('django.contrib.auth.urls')),
 ]
