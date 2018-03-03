@@ -27,11 +27,12 @@
         {% else %}
 
         <a class="nav-link" href="{% url 'login' %}">Login</a>
+        <a class="nav-link" href="{% url 'signup' %}">Signup</a>
 
         {% endif %}
       </li>
         <li>
-            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+            <a class="nav-link" href="{% url 'topic_list' %}">Topics</a>
         </li>
     </ul>
   </div>

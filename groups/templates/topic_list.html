@@ -1,0 +1,8 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<p>Test</p>
+{% for topic in topic_list %}
+<h2>{{ topic.name }}</h2>
+{% endfor %}
+{% endblock %}
