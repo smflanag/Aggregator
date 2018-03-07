@@ -9,7 +9,7 @@ Function views
 Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
+Including another accountURLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
@@ -30,4 +30,6 @@ urlpatterns = [
     url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.get_user_profile),
     url(r'^accounts/$', include('django.contrib.auth.urls')),
     url(r'topic/$', group_views.TopicList.as_view(), name='topic_list'),
+    url(r'^topic/(?P<slug>[-\w]+)$', group_views.TopicDetails.as_view()),
 ]
+# url(r'^topic/(?P<pk>\d+)$', group_views.TopicDetails.as_view()),
