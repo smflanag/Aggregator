@@ -3,7 +3,7 @@
 {% block content %}
 <p>Test</p>
 {% for topic in topic_list %}
-<a href=""><h2>{{ topic.topic_name }}</h2></a>
+<a href="{% url 'groups:topic_detail' slug=topic.topic_name %}"><h2>{{ topic.topic_name }}</h2></a>
 
 {% endfor %}
 {% endblock %}

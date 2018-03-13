@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include
 from accounts import views
-from groups import views as group_views
+from groups import urls
 
 urlpatterns = [
     url(r'admin/', admin.site.urls),
@@ -29,7 +29,5 @@ urlpatterns = [
     url(r'^signup/$',views.SignUp,name='signup'),
     url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.get_user_profile),
     url(r'^accounts/$', include('django.contrib.auth.urls')),
-    url(r'topic/$', group_views.TopicList.as_view(), name='topic_list'),
-    url(r'^topic/(?P<slug>[-\w]+)$', group_views.TopicDetails.as_view()),
-]
-# url(r'^topic/(?P<pk>\d+)$', group_views.TopicDetails.as_view()),
+    url(r'^', include('groups.urls', namespace="groups")),
+    ]
