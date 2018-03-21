@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.get_user_profile),
     url(r'^accounts/$', include('django.contrib.auth.urls')),
     url(r'^', include('groups.urls', namespace="groups")),
+    url(r'^', include('articles.urls', namespace="articles")),
     ]

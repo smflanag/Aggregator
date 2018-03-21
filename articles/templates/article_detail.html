@@ -1,0 +1,11 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+    <div><h2>{{ article.article_name }}</h2></div>
+    <div><p>{{ article.article_content }}</p></div>
+    <h4>Created by: {{article.created_by.user }}</h4>
+    <h4>Created at: {{article.created_at }}</h4>
+    <h4>Topic: {{article.topic }}</h4>
+
+{% endblock %}

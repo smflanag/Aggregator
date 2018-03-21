@@ -1,5 +1,4 @@
 from django.forms import ModelForm
-from django.views.generic import CreateView
 
 from groups.models import Topic
 

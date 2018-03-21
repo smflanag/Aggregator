@@ -5,17 +5,28 @@
 <div><h2>{{ topic.topic_name }}</h2></div>
     <div><p>{{ topic.topic_description }}</p></div>
     <h2>Member Count: {{topic.members.count }}</h2>
+
+    <p>Article Count: {{ topic.article.count }}</p>
 <div class="container">
   {% if user in topic.members.all %}
 
+    <a href="{% url 'groups:leave' slug=topic.topic_name  %}"
+       class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Leave</a>
+
+       <p> Want to post an article in this topic? You can do that
+        <a href="{% url 'articles:article_form' slug=topic.topic_name %}">here</a>.
+        </p>
 
 
-    <a href="{% url 'groups:leave' slug=topic.topic_name  %}">Leave</a>
   {% else %}
     <a href="{% url 'groups:join' slug=topic.topic_name  %}"
        class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Join</a>
+
+{% for articles in article_list %}
+<a href="{% url 'articles:article_detail' slug=articles.article_name %}"><h2>{{ articles.article_name }}</h2></a>
+
+{% endfor %}
+
   {% endif %}
 </div>
-
-
 {% endblock %}
