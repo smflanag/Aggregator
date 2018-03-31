@@ -3,11 +3,17 @@
 {% block content %}
 
 
-<h2>{{ user.get_full_name }}</h2>
+<h2>{{ profile.get_full_name }}</h2>
 <ul>
-  <li>Username: {{ user.username }}</li>
-<li>Location: {{ userprofile.user.location }}</li>
-  <li>Birth Date: {{ userprofile.user.birth_date }}</li>
+  <li>Username: {{ profile.username }}</li>
+<li>Location: {{ profile.user.location }}</li>
+  <li>Birth Date: {{ profile.user.birth_date }}</li>
 </ul>
+
+{% for articles in user_article_list %}
+<a href="{% url 'articles:article_detail' slug=articles.article_name %}"><h2>{{ articles.article_name }}</h2></a>
+<h4>{{ articles.created_at }}</h4>
+
+{% endfor %}
 
 {% endblock %}

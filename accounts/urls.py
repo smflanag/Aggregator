@@ -14,5 +14,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^signup/$',account_views.SignUp,name='signup'),
     url(r'profile/(?P<username>[a-zA-Z0-9]+)$', account_views.get_user_profile, name='user_profile'),
-    url(r'^accounts/$', include('django.contrib.auth.urls')),
+    # url(r'^accounts/$', include('django.contrib.auth.urls')),
         ]

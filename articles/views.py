@@ -50,15 +50,11 @@ class UserArticle(ListView):
         context['article_user'] = self.article_user
         return context
 
-class ArticleDetail(SelectRelatedMixin, LoginRequiredMixin, DetailView):
+class ArticleDetail(SelectRelatedMixin, DetailView):
     model = Article
     select_related = ('created_by', 'topic')
     slug_field = 'article_name'
     template_name = 'article_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
     template_name = 'article_form.html'

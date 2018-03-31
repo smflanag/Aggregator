@@ -21,16 +21,20 @@
       </li>
     </ul>
     <ul class="navbar-nav">
-      <li class="nav-item">
+
         {% if user.is_authenticated %}
+        <li class="nav-item">
         <a class="nav-link" href="{% url 'accounts:logout' %}">LogOut</a>
+            </li>
         {% else %}
-
+        <li class="nav-item">
         <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+            </li>
+        <li class="nav-item">
         <a class="nav-link" href="{% url 'accounts:signup' %}">Signup</a>
-
+            </li>
         {% endif %}
-      </li>
+
         <li>
             <a class="nav-link" href="{% url 'groups:topic_list' %}">Topics</a>
         </li>
@@ -43,8 +47,16 @@
 
 <div class="container jumbotron"><h1> Welcome to the Aggregator HomePage</h1></div>
 
-<div style="text-align:center"><h6 class="container"> Pls hold tight while we build some things</h6>
-<img src="https://ctl.s6img.com/society6/img/OMiOwHz9Ep-NRFrPLuwEGDFKzQs/w_550/prints/~artwork/s6-original-art-uploads/society6/uploads/misc/5a38e03eb0024f11a09b4e3a9dab640a/~~/hang-in-there-baby-prints.jpg"></div>
+<!--<div style="text-align:center"><h6 class="container"> Pls hold tight while we build some things</h6>-->
+
+{% for article in site_article_list %}
+<a href="{% url 'articles:article_detail' slug=article.article_name %}"><h2>{{ article.article_name }}</h2></a>
+ <h6>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a></h6>
+<h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic %}">{{article.topic }}</a></h6>
+
+{% endfor %}
+
+<!--<img src="https://ctl.s6img.com/society6/img/OMiOwHz9Ep-NRFrPLuwEGDFKzQs/w_550/prints/~artwork/s6-original-art-uploads/society6/uploads/misc/5a38e03eb0024f11a09b4e3a9dab640a/~~/hang-in-there-baby-prints.jpg"></div>-->
 {% endblock %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
