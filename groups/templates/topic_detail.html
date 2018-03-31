@@ -21,12 +21,12 @@
   {% else %}
     <a href="{% url 'groups:join' slug=topic.topic_name  %}"
        class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Join</a>
-
+{% endif %}
+</div>
 {% for articles in article_list %}
 <a href="{% url 'articles:article_detail' slug=articles.article_name %}"><h2>{{ articles.article_name }}</h2></a>
 
 {% endfor %}
 
-  {% endif %}
-</div>
+
 {% endblock %}

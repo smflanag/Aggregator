@@ -6,12 +6,12 @@
 <a href="{% url 'groups:topic_detail' slug=topic.topic_name %}"><h2>{{ topic.topic_name }}</h2></a>
 <div class="row">
         <div class="col-md-4">
-          <span class="badge">{{group.members.count}}</span>
-            member{{group.members.count|pluralize}}
+          <span class="badge">{{topic.members.count }}</span>
+            member{{topic.members.count|pluralize}}
           </div>
         <div class="col-md-4">
-          <span class="badge">{{group.posts.count}}</span>
-          post{{group.posts.count|pluralize}}
+          <span class="badge">{{topic.article.count}}</span>
+          article{{topic.article.count|pluralize}}
         </div>
         </div>
 

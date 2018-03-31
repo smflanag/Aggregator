@@ -6,7 +6,7 @@ from groups.models import Topic
 
 
 class Article(models.Model):
-    created_by = models.ForeignKey(UserProfile, related_name='articles', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(UserProfile, related_name='articles', unique=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     article_name = models.CharField(max_length=126)
     article_content = models.TextField()

@@ -17,18 +17,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include
-from accounts import views
+from accounts import views as account_views
 from groups import urls
 
 urlpatterns = [
+    url(r'^$',account_views.Homepage,name='home'),
     url(r'admin/', admin.site.urls),
-    url(r'^$',views.Homepage,name='home'),
-    url(r'^users_only/$',views.LoggedInView.as_view(),name='users_only'),
-    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}, name='logout'),
-    url(r'^signup/$',views.SignUp,name='signup'),
-    url(r'profile/(?P<username>[a-zA-Z0-9]+)$', views.get_user_profile),
-    url(r'^accounts/$', include('django.contrib.auth.urls')),
+    url(r'^', include('accounts.urls', namespace="accounts")),
     url(r'^', include('groups.urls', namespace="groups")),
     url(r'^', include('articles.urls', namespace="articles")),
     ]
