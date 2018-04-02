@@ -7,6 +7,15 @@
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
     <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic %}">{{article.topic }}</a></h6>
+    <h6>Votes: {{ vote_count }} </h6>
 
+ {% if user.is_authenticated %}
+
+        <div class="col-md-4"><a href="{% url 'articles:upvote' slug=article.article_name %}"
+            class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Upvote</a></div>
+
+        <div class="col-md-4"><a href="{% url 'articles:downvote' slug=article.article_name %}"
+            class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Downvote</a></div>
+    {% endif %}
 
 {% endblock %}

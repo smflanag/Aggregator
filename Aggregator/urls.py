@@ -19,6 +19,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import include
 from accounts import views as account_views
 from groups import urls
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^$',account_views.Homepage,name='home'),
@@ -27,3 +28,5 @@ urlpatterns = [
     url(r'^', include('groups.urls', namespace="groups")),
     url(r'^', include('articles.urls', namespace="articles")),
     ]
+
+urlpatterns += staticfiles_urlpatterns()
