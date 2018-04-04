@@ -30,4 +30,4 @@ class Vote(models.Model):
         unique_together = ('voter', 'article')
 
     def __str__(self):
-        return self.article.article_name
+        return self.article.article_name + ' , ' + self.voter.user.username + ' , ' +  str(self.value)

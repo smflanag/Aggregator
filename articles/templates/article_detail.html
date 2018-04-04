@@ -1,21 +1,42 @@
 {% extends 'home.html' %}
-
+{% load staticfiles %}
 {% block content %}
 
-    <div><h2>{{ article.article_name }}</h2></div>
-    <div><p class="text-center">{{ article.article_content }}</p></div>
+    <div class="row">
+            <div class="col-md-2 votes">
+            {% if user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'articles:upvote' slug=article.article_name %}"
+                        class="btn btn-lg btn-fill btn-warning"><svg id="i-arrow-top" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M6 10 L16 2 26 10 M16 2 L16 30" />
+                        </svg>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{% url 'articles:downvote' slug=article.article_name %}"
+                        class="btn btn-lg btn-fill btn-warning"><svg id="i-arrow-bottom" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M6 22 L16 30 26 22 M16 30 L16 2" />
+                        </svg>
+                        </a>
+                    </div>
+            {% endif %}
+            </div>
+        <div class="col-md-8 article_title"><h2>{{ article.article_name }}</h2></div>
+        </div>
+
+
+        <div class="">
+            <p class="text-center">{{ article.article_content }}</p>
+        </div>
+
+
+    <div class="article_details">
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
     <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic %}">{{article.topic }}</a></h6>
-    <h6>Votes: {{ vote_count }} </h6>
+    <h6>Votes: {{ vote_count }} </h6></div>
 
- {% if user.is_authenticated %}
 
-        <div class="col-md-4"><a href="{% url 'articles:upvote' slug=article.article_name %}"
-            class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Upvote</a></div>
 
-        <div class="col-md-4"><a href="{% url 'articles:downvote' slug=article.article_name %}"
-            class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Downvote</a></div>
-    {% endif %}
 
 {% endblock %}

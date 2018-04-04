@@ -18,3 +18,22 @@ a:hover {
 a:active {
     color: blue;
 }
+
+.article_details{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 130px
+}
+
+.article_title{
+    margin-top: 130px;
+    margin-bottom: 100px;
+}
+
+.votes{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 20px;
+    margin-left: 20px
+}
