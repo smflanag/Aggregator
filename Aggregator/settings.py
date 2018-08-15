@@ -62,7 +62,9 @@ ROOT_URLCONF = 'Aggregator.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR, STATICFILES_DIR],
+        'DIRS': [TEMPLATES_DIR,
+                 STATICFILES_DIR
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

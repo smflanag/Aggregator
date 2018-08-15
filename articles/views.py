@@ -93,10 +93,12 @@ class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
         return context
 
 
-class DeleteArticle(SelectRelatedMixin, LoginRequiredMixin, DeleteView):
+class ArticleDelete(SelectRelatedMixin, LoginRequiredMixin, DeleteView):
     model = Article
-    select_related = ('userprofile', 'topic')
-    success_url = reverse_lazy('articles:all')
+    select_related = ('created_by', 'topic')
+    slug_field = 'article_name'
+    template_name = 'article_delete.html'
+    success_url = reverse_lazy('home')
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -106,6 +108,8 @@ class DeleteArticle(SelectRelatedMixin, LoginRequiredMixin, DeleteView):
         messages.success(self.request, 'Article Deleted')
         return super().delete(*args, **kwargs)
 
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('articles:article_list', kwargs={'slug': self.kwargs.get('slug')})
 
 class Upvote(LoginRequiredMixin,generic.RedirectView):
 
