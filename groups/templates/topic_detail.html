@@ -33,6 +33,15 @@
     </p>
     {% endif %}
     {% endif %}
+    {% if user.is_authenticated %}
+    {% if user in topic.members.all %}
+    <p> Want to delete this topic?
+        <a href="{% url 'groups:topic_delete' slug=topic.topic_name %}"
+                        class="btn btn-lg btn-fill btn-warning">
+                        </a>
+    </p>
+    {% endif %}
+    {% endif %}
 </div>
 {% for articles in article_list %}
 <a href="{% url 'articles:article_detail' slug=articles.article_name %}"><h2>{{ articles.article_name }}</h2></a>
