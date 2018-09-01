@@ -29,14 +29,14 @@
     {% if user.is_authenticated %}
     {% if user in topic.members.all %}
     <p> Want to post an article in this topic? You can do that
-        <a href="{% url 'articles:article_form' slug=topic.topic_name %}">here</a>.
+        <a href="{% url 'articles:article_form' slug=slug %}">here</a>.
     </p>
     {% endif %}
     {% endif %}
     {% if user.is_authenticated %}
     {% if user in topic.members.all %}
     <p> Want to delete this topic?
-        <a href="{% url 'groups:topic_delete' slug=topic.topic_name %}"
+        <a href="{% url 'groups:topic_delete' slug=slug %}"
                         class="btn btn-lg btn-fill btn-warning">
                         </a>
     </p>

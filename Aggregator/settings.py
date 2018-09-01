@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'articles',
     'accounts',
     'groups',
+    'django_seed',
+    'django_slugify_processor',
 ]
 
 MIDDLEWARE = [

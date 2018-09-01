@@ -76,7 +76,7 @@ class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user.user_profile
-        topic = get_object_or_404(Topic, topic_name=self.kwargs.get('slug'))
+        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
         self.object.topic = topic
         self.object.save()
         return super().form_valid(form)
@@ -88,7 +88,7 @@ class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        topic = get_object_or_404(Topic, topic_name=self.kwargs.get('slug'))
+        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
         context['topic'] = topic
         return context
 
