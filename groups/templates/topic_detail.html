@@ -9,8 +9,8 @@
 
 <div class="container mainbody">
   <div class="row">
-    <div class="col-md-6"><h1>{{ topic.topic_name }}</h1></div>
-    <div class="col-md-6"><h3>{{ topic.topic_description }}</h3></div>
+    <div class="col-md-8"><h1>{{ topic.topic_name }}</h1></div>
+    <div class="col-md-4"><h3>{{ topic.topic_description }}</h3></div>
       <div class="col-md-4"><h6>Member Count: {{topic.members.count }}</h6></div>
       <div class="col-md-4"><h6>Article Count: {{ topic.article.count }}</h6></div>
       {% if user.is_authenticated %}
@@ -29,24 +29,27 @@
     {% if user.is_authenticated %}
     {% if user in topic.members.all %}
     <p> Want to post an article in this topic? You can do that
-        <a href="{% url 'articles:article_form' slug=slug %}">here</a>.
+        <a href="{% url 'articles:article_form' slug=topic.slug %}">here</a>.
     </p>
     {% endif %}
     {% endif %}
     {% if user.is_authenticated %}
     {% if user in topic.members.all %}
     <p> Want to delete this topic?
-        <a href="{% url 'groups:topic_delete' slug=slug %}"
+        <a href="{% url 'groups:topic_delete' slug=topic.slug %}"
                         class="btn btn-lg btn-fill btn-warning">
-                        </a>
+                        Delete</a>
     </p>
     {% endif %}
     {% endif %}
 </div>
+
+<div>
 {% for articles in article_list %}
-<a href="{% url 'articles:article_detail' slug=articles.article_name %}"><h2>{{ articles.article_name }}</h2></a>
+<a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ articles.article_name }}</h2></a>
+{% empty %}
+<p>Ooops, there's no articles yet. Create one above! </p>
 
 {% endfor %}
-
-
+</div>
 {% endblock %}
