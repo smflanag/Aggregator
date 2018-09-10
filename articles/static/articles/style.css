@@ -3,5 +3,22 @@ h1,h2,h3 {
 }
 
 .mainbody {
-    margin-top: 56px
+    margin-top: 60px;
+}
+
+.article_list {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.topic_list {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.button_tag {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }

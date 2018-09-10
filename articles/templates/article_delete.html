@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="row">
+    <div class="row mainbody">
             <div class="col-md-2 votes">
             {% if user.is_authenticated %}
                 <a>Are you sure you want to delete?</a>
@@ -20,7 +20,7 @@
     <div class="topic_details">
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
-    <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic %}">{{article.topic }}</a></h6>
+    <h6>Topic: <a href="{% url 'groups:topic_detail' slug=topic.slug %}">{{article.topic }}</a></h6>
     <h6>Votes: {{ vote_count }} </h6></div>
 
     <div>
