@@ -5,7 +5,7 @@ from django.template.defaultfilters import slugify
 
 class Topic(models.Model):
     topic_name = models.CharField(max_length=126)
-    topic_description = models.CharField(max_length=526,default='SOME STRING')
+    topic_description = models.CharField(max_length=526,default='Some string describing the topic')
     slug = models.SlugField(unique=True)
     members = models.ManyToManyField(User)
 

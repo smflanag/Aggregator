@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.template.defaultfilters import slugify
 
 from accounts.models import UserProfile
 from groups.models import Topic
@@ -12,6 +13,11 @@ class Article(models.Model):
     article_content = models.TextField()
     message_html = models.TextField(editable=False, default='')
     topic = models.ForeignKey(Topic, related_name='article', on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True, default=None)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.article_name)
+        super(Article, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.article_name

@@ -7,9 +7,9 @@ app_name = 'groups'
 
 urlpatterns = [
     url(r'topic/$', group_views.TopicList.as_view(), name='topic_list'),
-    url(r'^topic/(?P<slug>[-\w]+)/$', group_views.TopicDetails.as_view(), name='topic_detail'),
+    url(r'^topic/(?P<slug>[-\w]+)/', group_views.TopicDetails.as_view(), name='topic_detail'),
     url(r'topic_create/$', group_views.TopicCreate.as_view(), name='new_topic'),
     url(r'topic_delete/(?P<slug>[-\w]+)', group_views.TopicDelete.as_view(), name='topic_delete'),
-    url(r'join/(?P<slug>[-\w]+)/$',group_views.JoinTopic.as_view(),name='join'),
-    url(r'leave/(?P<slug>[-\w]+)/$',group_views.LeaveTopic.as_view(),name='leave'),
+    url(r'join/(?P<slug>[-\w]+)/$', group_views.JoinTopic.as_view(),name='join'),
+    url(r'leave/(?P<slug>[-\w]+)/$', group_views.LeaveTopic.as_view(),name='leave'),
     ]

@@ -25,8 +25,9 @@ urlpatterns = [
     url(r'^$',account_views.Homepage,name='home'),
     url(r'admin/', admin.site.urls),
     url(r'^', include('accounts.urls', namespace="accounts")),
-    url(r'^', include('groups.urls', namespace="groups")),
     url(r'^', include('articles.urls', namespace="articles")),
+    url(r'^', include('groups.urls', namespace="groups")),
+
     ]
 
 urlpatterns += staticfiles_urlpatterns()

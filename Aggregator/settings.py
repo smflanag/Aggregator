@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'groups',
     'django_seed',
     'django_slugify_processor',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

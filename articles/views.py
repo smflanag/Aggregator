@@ -57,7 +57,8 @@ class UserArticle(ListView):
 class ArticleDetail(SelectRelatedMixin, DetailView):
     model = Article
     select_related = ('created_by', 'topic')
-    slug_field = 'article_name'
+    #slug_field = 'article_name'
+    slug_field = 'slug'
     template_name = 'article_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -67,28 +68,31 @@ class ArticleDetail(SelectRelatedMixin, DetailView):
         context['vote_count'] = vote_count['value__sum']
         return context
 
+    def get_redirect_url(self,*args,**kwargs):
+        return reverse('articles:article_detail',kwargs={'slug':self.slug})
 
 class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
     template_name = 'article_form.html'
     form_class = ArticleForm
-    model = Article
+    #model = Article
+    #slug_field = 'slug'
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user.user_profile
-        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
+        topic = get_object_or_404(Topic, slug=Topic.slug)
         self.object.topic = topic
         self.object.save()
         return super().form_valid(form)
 
 
     def get_redirect_url(self,*args,**kwargs):
-        return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
+        return reverse('articles:article_detail',kwargs={'slug': self.kwargs.get('slug')})
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
+        topic = get_object_or_404(Topic, slug= self.kwargs.get('slug'))
         context['topic'] = topic
         return context
 

@@ -15,7 +15,8 @@ from articles.models import Article
 from groups import models
 from groups.forms import TopicForm
 from groups.models import Topic
-from braces.views import SelectRelatedMixin, LoginRequiredMixin
+#from braces.views import SelectRelatedMixin, LoginRequiredMixin
+from braces.views import SelectRelatedMixin
 
 # Create your views here.
 from django.views.generic import DetailView, CreateView, ListView, DeleteView
@@ -24,6 +25,7 @@ class TopicCreate(CreateView):
     model = Topic
     form_class = TopicForm
     template_name = 'new_topic.html'
+    slug_field = 'slug'
 
 
 class TopicDetails(DetailView, SingleObjectMixin):
@@ -58,9 +60,11 @@ class TopicList(ListView):
 
 class JoinTopic(LoginRequiredMixin,generic.RedirectView):
 
+    def get_redirect_url(self,*args,**kwargs):
+        return reverse('groups:topic_detail', kwargs={'slug': kwargs.get('slug')})
 
     def get(self,request,*args,**kwargs):
-        topic = get_object_or_404(Topic,slug=self.kwargs.get('slug'))
+        topic = get_object_or_404(Topic, slug=kwargs.get('slug'))
         try:
             topic.members.add(self.request.user)
         except IntegrityError:
@@ -69,15 +73,12 @@ class JoinTopic(LoginRequiredMixin,generic.RedirectView):
             messages.success(self.request,'You are now a member')
         return super().get(request,*args,**kwargs)
 
-    def get_redirect_url(self,*args,**kwargs):
-        return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
-
 
 
 class LeaveTopic(LoginRequiredMixin,generic.RedirectView):
 
     def get_redirect_url(self,*args,**kwargs):
-        return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
+        return reverse('groups:topic_detail',kwargs={'slug':kwargs.get('slug')})
 
     def get(self,request,*args,**kwargs):
         topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
