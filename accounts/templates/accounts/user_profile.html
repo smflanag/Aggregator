@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<div class="container-fluid fix_margin">
+<div class="container-fluid fix_margin mainbody">
   <h2>{{ profile.get_full_name }}</h2>
   <ul>
     <li>Username: {{ profile.username }}</li>
@@ -10,10 +10,11 @@
     <li>Birth Date: {{ profile.user.birth_date }}</li>
   </ul>
 </div>
+<div class="article_lists">
   {% for articles in user_article_list %}
-  <a href="{% url 'articles:article_detail' slug=articles.article_name %}"><h2>{{ articles.article_name }}</h2></a>
+  <a href="{% url 'articles:article_detail' slug=articles.slug %}"><h2>{{ articles.article_name }}</h2></a>
   <h4>{{ articles.created_at }}</h4>
 
 {% endfor %}
-
+</div>
 {% endblock %}
