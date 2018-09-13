@@ -33,7 +33,7 @@
     <div class="article_details">
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user  %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
-    <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic %}">{{article.topic }}</a></h6>
+    <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic.slug %}"> {{article.topic }}</a></h6>
     <h6>Votes: {{ vote_count }} </h6></div>
 
     <div>
