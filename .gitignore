@@ -1,0 +1,32 @@
+# Don't track content of these folders
+
+
+*.sqlite3
+*db.sqlite3
+*workspace.xml
+idea/
+*celery.py
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
