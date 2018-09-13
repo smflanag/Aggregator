@@ -44,9 +44,9 @@
 
 </div>
 
-<div class="article_list">
-{% for articles in article_list %}
-<a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ articles.article_name }}</h2></a>
+<div class="article_lists">
+{% for article in article_list %}
+    <a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ article.article_name }}</h2></a>
 {% empty %}
 <p>Ooops, there's no articles yet. Create one above! </p>
 

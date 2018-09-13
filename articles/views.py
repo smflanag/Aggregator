@@ -29,10 +29,12 @@ User = get_user_model()
 class ArticleList(SelectRelatedMixin, LoginRequiredMixin, ListView):
     model = Article
     select_related = ('userprofile', 'topic')
-    context_list = 'article_list'
+    #context_list = 'article_list'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        article_list = Article.objects.filter(topic=topic_name).order_by('-created_at')
+        context['article_list'] = article_list
         return context
 
 
@@ -73,14 +75,13 @@ class ArticleDetail(SelectRelatedMixin, DetailView):
 
 class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
     template_name = 'article_form.html'
+    model = Article
     form_class = ArticleForm
-    #model = Article
-    #slug_field = 'slug'
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user.user_profile
-        topic = get_object_or_404(Topic, slug=Topic.slug)
+        topic = get_object_or_404(Topic, slug=self.kwargs.get('slug'))
         self.object.topic = topic
         self.object.save()
         return super().form_valid(form)
@@ -118,7 +119,7 @@ class ArticleDelete(SelectRelatedMixin, LoginRequiredMixin, DeleteView):
 class Upvote(LoginRequiredMixin,generic.RedirectView):
 
     def get(self, request,*args,**kwargs):
-        article = get_object_or_404(Article, article_name=self.kwargs.get('slug'))
+        article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
         vote = None
         try:
             vote = Vote.objects.get(voter=self.request.user.user_profile, article=article)
@@ -145,7 +146,7 @@ class Upvote(LoginRequiredMixin,generic.RedirectView):
 class Downvote(LoginRequiredMixin,generic.RedirectView):
 
     def get(self, request,*args,**kwargs):
-        article = get_object_or_404(Article, article_name=self.kwargs.get('slug'))
+        article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
         vote = None
         try:
             vote = Vote.objects.get(voter=self.request.user.user_profile, article=article)

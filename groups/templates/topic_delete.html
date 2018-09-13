@@ -12,18 +12,21 @@
   </div>
 </div>
 
-<div>
+<div class="mainbody">
+<div class="topic_list">
         {% if user.is_authenticated %}
             <form method="post">{% csrf_token %}
                 <p>Are you sure you want to delete?</p>
-                <input type="submit" value="Confirm">
+                <input  type="submit" value="Confirm">
             </form>
         {% endif %}
 
     </div>
+    </div>
+
+<div class="article_lists">
 {% for articles in article_list %}
 <a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ articles.article_name }}</h2></a>
-
 {% endfor %}
-
+</div>
 {% endblock %}

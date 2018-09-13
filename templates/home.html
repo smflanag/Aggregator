@@ -52,7 +52,7 @@
 {% for article in site_article_list %}
 
 <div class="container mainbody">
-    <div class="article_list">
+    <div class="article_lists">
   <div class="row">
     <div class="col-md-8"><a href="{% url 'articles:article_detail' slug=article.slug %}" tabindex="1"><h2>{{ article.article_name }}</h2></a></div>
     <div class="col-md-2 text-truncate"><h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic.slug %}">{{article.topic }}</a></h6></div>
