@@ -44,11 +44,13 @@
 
 </div>
 
-<div class="article_lists">
+<div class="button_tag">
 {% for article in article_list %}
     <a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ article.article_name }}</h2></a>
+    <div class=""><h6>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a></h6></div>
+      <div class=""><h6>Created at: {{article.created_at }}</a></h6></div>
 {% empty %}
-<p>Ooops, there's no articles yet. Create one above! </p>
+    <p>Ooops, there's no articles yet. {% if user in topic.members.all %} Create one above! {% endif %}</p>
 
 {% endfor %}
 </div>

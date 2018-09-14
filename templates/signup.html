@@ -2,12 +2,15 @@
 
 {% block content %}
 <div class="container mainbody">
-<h1 class="jumbotron">SignUp</h1>
+<h1 class="jumbotron">Sign Up for an account on Aggregator</h1>
+    <h4 class="article_lists">With an account, you can become a member of groups, curate your homepage, create new Topics to follow, and contribute new articles for your Topics.</h4>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Save" />
+    <input class="button_tag" type="submit" value="Save" />
 </form>
 </div>
+<div class="upvote_button">
 <a class="container" href="{% url 'accounts:login' %}">Already have an account? Login here</a>
+    </div>
 {% endblock %}

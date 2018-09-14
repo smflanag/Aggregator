@@ -1,7 +1,7 @@
 {% extends 'home.html' %}
 
 {% block content %}
-<h4 class="mainbody">Pick a topic to join:</h4>
+<h4 class="mainbody topic_list">Pick a topic to join:</h4>
 {% for topic in topic_list %}
 <div class="topic_list">
 <a href="{% url 'groups:topic_detail' slug=topic.slug %}"><h2>{{ topic.topic_name }}</h2></a>

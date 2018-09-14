@@ -10,11 +10,14 @@
     <li>Birth Date: {{ profile.user.birth_date }}</li>
   </ul>
 </div>
+
 <div class="article_lists">
+    <h4>Here's the articles created by {{profile.username}}:</h4>
   {% for articles in user_article_list %}
   <a href="{% url 'articles:article_detail' slug=articles.slug %}"><h2>{{ articles.article_name }}</h2></a>
   <h4>{{ articles.created_at }}</h4>
-
+{% empty %}
+<p>Ooops, {{profile.username}} hasn't written any articles yet. </p>
 {% endfor %}
 </div>
 {% endblock %}
