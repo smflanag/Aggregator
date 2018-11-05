@@ -16,7 +16,7 @@ Including another accountURLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include
+from django.urls import include, path
 from accounts import views as account_views
 from groups import urls
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^', include('accounts.urls', namespace="accounts")),
     url(r'^', include('articles.urls', namespace="articles")),
     url(r'^', include('groups.urls', namespace="groups")),
-
+    path('rest-auth/', include('rest_auth.urls')),
     ]
 
 urlpatterns += staticfiles_urlpatterns()

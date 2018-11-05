@@ -4,12 +4,17 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum
-from django.http import Http404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from braces.views import SelectRelatedMixin, LoginRequiredMixin
+from rest_framework import viewsets, renderers, views
+from rest_framework.decorators import action, api_view
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 
 from accounts.models import UserProfile
 from articles.forms import ArticleForm
@@ -21,6 +26,7 @@ from articles.models import Article, Vote
 #
 #     def get_redirect_url(self,*args,**kwargs):
 #         return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
+from articles.serializers import VotesSerializer
 from groups.models import Topic
 
 User = get_user_model()
@@ -142,6 +148,70 @@ class Upvote(LoginRequiredMixin,generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         return reverse('articles:article_detail', kwargs={'slug': self.kwargs.get('slug')})
+
+from functools import wraps
+from django.utils.decorators import available_attrs, decorator_from_middleware
+
+def csrf_clear(view_func):
+    """
+    Skips the CSRF checks by setting the 'csrf_processing_done' to true.
+    """
+
+    def wrapped_view(*args, **kwargs):
+        request = args[0]
+        request.csrf_processing_done = True
+        return view_func(*args, **kwargs)
+
+    return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)
+
+@csrf_clear
+@api_view(['GET','POST',])
+def js_upvoting(request, pk):
+    if request.method == 'POST':
+        article = get_object_or_404(Article, id=pk)
+        vote = None
+        try:
+            vote = Vote.objects.get(voter=request.user.user_profile, article=article)
+        except ObjectDoesNotExist:
+            pass
+        if vote:
+            if vote.value == 1:
+                logging.warning("you can't upvote twice silly")
+            else:
+                vote.value = 1
+                vote.save()
+                logging.warning("you changed your mind and upvoted")
+        else:
+            vote = Vote()
+            vote.article = article
+            vote.voter = request.user.user_profile
+            vote.value = 1
+            vote.save()
+
+    article_id = pk
+    vote_count = Vote.objects.filter(article=pk).aggregate(Sum('value'))
+    context = vote_count['value__sum']
+    yourdata = [{"article_id": article_id, "vote_count": context}]
+    results = VotesSerializer(yourdata, many=True).data
+    return Response(results)
+
+# if request.method == 'POST':
+#         post_text = request.POST.get('the_post')
+#         response_data = {}
+#
+#         post = Post(text=post_text, author=request.user)
+#         post.save()
+#
+#         response_data['result'] = 'Create post successful!'
+#         response_data['postpk'] = post.pk
+#         response_data['text'] = post.text
+#         response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
+#         response_data['author'] = post.author.username
+#
+#         return HttpResponse(
+#             json.dumps(response_data),
+#             content_type="application/json"
+#         )
 
 class Downvote(LoginRequiredMixin,generic.RedirectView):
 

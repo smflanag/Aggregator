@@ -6,15 +6,17 @@
             <div class="col-md-1 button_tag">
             {% if user.is_authenticated %}
                     <div>
-                        <a href="{% url 'articles:upvote' slug=article.slug %}"
-                        class="btn btn-lg btn-fill btn-warning upvote_button"><svg id="i-arrow-top" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <!--<a href="{% url 'articles:upvote' slug=article.slug %}"-->
+                        <a
+                                class="btn btn-lg btn-fill btn-warning upvote_button article_vote" id="upvote"><svg id="i-arrow-top" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <path d="M6 10 L16 2 26 10 M16 2 L16 30" />
                         </svg>
                         </a>
                     </div>
                     <div>
-                        <a href="{% url 'articles:downvote' slug=article.slug %}"
-                        class="btn btn-lg btn-fill btn-warning"><svg id="i-arrow-bottom" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <!--<a href="{% url 'articles:downvote' slug=article.slug %}"-->
+                        <a
+                        class="btn btn-lg btn-fill btn-warning article_vote" id="downvote"><svg id="i-arrow-bottom" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <path d="M6 22 L16 30 26 22 M16 30 L16 2" />
                         </svg>
                         </a>
@@ -32,7 +34,7 @@
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user  %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
     <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic.slug %}"> {{article.topic }}</a></h6>
-    <h6>Votes: {{ vote_count }} </h6></div>
+    <h6 class="vote_count">Votes: {{ vote_count }} </h6></div>
 
     <div class="article_details">
             {% if user.is_authenticated %}
@@ -46,6 +48,29 @@
             {% endif %}
             {% endif %}
             </div>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    window.article_id = {{article.id}};
+    console.log($().jquery);
+    console.log(5 + 3);
+    $(document).ready(function(){
+    $("#upvote").click(function(){
+    var upvote =$.post("/articles/"+window.article_id+"/upvote",
+    {},
+    function(response){
+        $(".vote_count").text("Votes: "+({{vote_count}}+1));
+    });
+
+});
+        $("#upvote").click(function(){
+            console.log(5 + 6);
+        });
+    });
+</script>
+
+
+
 
 
 {% endblock %}

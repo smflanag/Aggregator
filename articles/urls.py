@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 
 from articles import views as article_views
 from articles.models import Article
@@ -12,4 +13,5 @@ urlpatterns = [
     url(r'^article/(?P<slug>[-\w]+)', article_views.ArticleDetail.as_view(), name='article_detail'),
     url(r'^article/(?P<slug>[-\w]+)/delete', article_views.ArticleDelete.as_view(), name='article_delete'),
 
+    path(r'articles/<int:pk>/upvote', article_views.js_upvoting)
     ]

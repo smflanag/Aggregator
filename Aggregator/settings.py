@@ -48,13 +48,16 @@ INSTALLED_APPS = [
     'django_seed',
     'django_slugify_processor',
     'django_extensions',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -147,4 +150,16 @@ LOGGING = {
             'level': 'DEBUG',
         },
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+         'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+
 }

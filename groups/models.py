@@ -9,6 +9,7 @@ class Topic(models.Model):
     slug = models.SlugField(unique=True)
     members = models.ManyToManyField(User)
 
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.topic_name)
         super(Topic, self).save(*args, **kwargs)
