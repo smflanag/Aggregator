@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^article/(?P<slug>[-\w]+)', article_views.ArticleDetail.as_view(), name='article_detail'),
     url(r'^article/(?P<slug>[-\w]+)/delete', article_views.ArticleDelete.as_view(), name='article_delete'),
 
-    path(r'articles/<int:pk>/upvote', article_views.js_upvoting)
+    path(r'articles/<int:pk>/upvote', article_views.js_upvoting),
+    path(r'articles/<int:pk>/downvote', article_views.js_downvoting),
     ]

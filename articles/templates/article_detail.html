@@ -60,9 +60,23 @@
     {},
     function(response){
         $(".vote_count").text("Votes: "+({{vote_count}}+1));
+        $("#i-arrow-top").css('color','green');
+        $("#i-arrow-bottom").css('color','red');
     });
 
 });
+    $("#downvote").click(function(){
+    var downvote =$.post("/articles/"+window.article_id+"/downvote",
+    {},
+    function(response){
+        $(".vote_count").text("Votes: "+({{vote_count}}-1));
+        $("#i-arrow-top").css('color','red');
+        $("#i-arrow-bottom").css('color','green');
+    });
+
+});
+
+
         $("#upvote").click(function(){
             console.log(5 + 6);
         });

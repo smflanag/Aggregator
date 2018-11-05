@@ -83,6 +83,7 @@ class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
     template_name = 'article_form.html'
     model = Article
     form_class = ArticleForm
+    slug_field = 'slug'
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -195,23 +196,36 @@ def js_upvoting(request, pk):
     results = VotesSerializer(yourdata, many=True).data
     return Response(results)
 
-# if request.method == 'POST':
-#         post_text = request.POST.get('the_post')
-#         response_data = {}
-#
-#         post = Post(text=post_text, author=request.user)
-#         post.save()
-#
-#         response_data['result'] = 'Create post successful!'
-#         response_data['postpk'] = post.pk
-#         response_data['text'] = post.text
-#         response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
-#         response_data['author'] = post.author.username
-#
-#         return HttpResponse(
-#             json.dumps(response_data),
-#             content_type="application/json"
-#         )
+@csrf_clear
+@api_view(['GET','POST',])
+def js_downvoting(request, pk):
+    if request.method == 'POST':
+        article = get_object_or_404(Article, id=pk)
+        vote = None
+        try:
+            vote = Vote.objects.get(voter=request.user.user_profile, article=article)
+        except ObjectDoesNotExist:
+            pass
+        if vote:
+            if vote.value == -1:
+                logging.warning("you can't downvote twice silly")
+            else:
+                vote.value = -1
+                vote.save()
+                logging.warning("you changed your mind and downvoted")
+        else:
+            vote = Vote()
+            vote.article = article
+            vote.voter = request.user.user_profile
+            vote.value = -1
+            vote.save()
+
+    article_id = pk
+    vote_count = Vote.objects.filter(article=pk).aggregate(Sum('value'))
+    context = vote_count['value__sum']
+    yourdata = [{"article_id": article_id, "vote_count": context}]
+    results = VotesSerializer(yourdata, many=True).data
+    return Response(results)
 
 class Downvote(LoginRequiredMixin,generic.RedirectView):
 
