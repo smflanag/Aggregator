@@ -18,6 +18,6 @@ class Topic(models.Model):
         return self.topic_name
 
     def get_absolute_url(self):
-        return u'/topic/%s' % self.topic_name
+        return u'/topic/%s' % slugify(self.topic_name)
 
 
