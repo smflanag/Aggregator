@@ -34,7 +34,11 @@
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user  %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
     <h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic.slug %}"> {{article.topic }}</a></h6>
-    <h6 class="vote_count">Votes: {{ vote_count }} </h6></div>
+    {% if vote_count != None %}
+        <h6 class="vote_count">Votes: {{ vote_count }} </h6></div>
+    {% else %}
+        <h6 class="vote_count">Votes: {{ 0 }} </h6></div>
+    {% endif %}
 
     <div class="article_details">
             {% if user.is_authenticated %}
@@ -58,20 +62,30 @@
     $("#upvote").click(function(){
     var upvote =$.post("/articles/"+window.article_id+"/upvote",
     {},
-    function(response){
-        $(".vote_count").text("Votes: "+({{vote_count}}+1));
+    function(response){if ({{vote_count}}===None){
+        $(".vote_count").text("Votes: 1");
         $("#i-arrow-top").css('color','green');
         $("#i-arrow-bottom").css('color','red');
+        } else {
+        $(".vote_count").text("Votes: "+({{vote_count}}+1));
+        $("#i-arrow-top").css('color','green');
+        $("#i-arrow-bottom").css('color','red');}
+
+
     });
 
 });
     $("#downvote").click(function(){
     var downvote =$.post("/articles/"+window.article_id+"/downvote",
     {},
-    function(response){
+    function(response){if (".vote_count"!=="None"){
         $(".vote_count").text("Votes: "+({{vote_count}}-1));
         $("#i-arrow-top").css('color','red');
         $("#i-arrow-bottom").css('color','green');
+        } else {
+        $(".vote_count").text("Votes: -1");
+        $("#i-arrow-top").css('color','red');
+        $("#i-arrow-bottom").css('color','green');}
     });
 
 });
