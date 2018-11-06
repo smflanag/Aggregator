@@ -15,7 +15,7 @@
 <div class="article_details">
     {% if user.is_authenticated %}
 
-            <p>Want to update your profile? You can do that <a href="{% url 'accounts:user_update' slug=userprofile.user %}">here</a>.</p>
+            <p>Want to update your profile? You can do that <a href="{% url 'accounts:user_update' username=user %}">here</a>.</p>
 
     {% endif %}
 </div>

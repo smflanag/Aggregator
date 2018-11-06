@@ -53,24 +53,27 @@ def SignUp(request):
     return render(request, 'signup.html', {'form': form})
 
 class UpdateProfile(UpdateView,LoginRequiredMixin):
-    template_name = 'user_update.html'
+
+
+
+    template_name = 'accounts/user_update.html'
     model = UserProfile
-    fields = ('bio', 'location', 'birthdate')
-    context_object_name = 'userprofile'
+    # fields = ('bio', 'location', 'birthdate')
+    # context_object_name = 'userprofile'
     slug_field = UserProfile.user
-
+    #
     def get_redirect_url(self,*args,**kwargs):
-        return reverse('accounts:user_profile',kwargs={'slug':self.kwargs.get('userprofile')})
+        return reverse('accounts:user_profile',kwargs={'slug':self.kwargs.get('UserProfile.user')})
 
-
-
-
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.updated_by = self.request.user
-        post.updated_at = timezone.now()
-        post.save()
-        return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+    #
+    #
+    #
+    # def form_valid(self, form):
+    #     post = form.save(commit=False)
+    #     post.updated_by = self.request.user
+    #     post.updated_at = timezone.now()
+    #     post.save()
+    #     return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
 
 
 def get_user_profile(request, username):
