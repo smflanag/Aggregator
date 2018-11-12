@@ -13,7 +13,7 @@ class Article(models.Model):
     article_content = models.TextField()
     message_html = models.TextField(editable=False, default='')
     topic = models.ForeignKey(Topic, related_name='article', on_delete=models.CASCADE)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, default=slugify(article_name))
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.article_name)
@@ -37,3 +37,19 @@ class Vote(models.Model):
 
     def __str__(self):
         return self.article.article_name + ' , ' + self.voter.user.username + ' , ' +  str(self.value)
+
+
+class Comment(models.Model):
+    commenter = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+    comment_body = models.TextField()
+    message_html = models.TextField(editable=False, default='')
+    time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.article.article_name + ' , ' + self.commenter.user.username
+
+    def get_absolute_url(self):
+        return u'/article/%d' % slugify(self.article_name)
+
+

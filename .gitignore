@@ -15,7 +15,7 @@ idea/
 *.exe
 *.o
 *.so
-
+*.iml
 *.so
 
 # Packages #

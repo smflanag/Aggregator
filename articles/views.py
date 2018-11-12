@@ -17,8 +17,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
 from accounts.models import UserProfile
-from articles.forms import ArticleForm
-from articles.models import Article, Vote
+from articles.forms import ArticleForm, CommentForm
+from articles.models import Article, Vote, Comment
 
 # class ArticleCreate(CreateView):
 #     model = Article
@@ -72,6 +72,8 @@ class ArticleDetail(SelectRelatedMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         article = self.object
+        comment_list = Comment.objects.filter(article=article).order_by('-time')
+        context['comment_list'] = comment_list
         vote_count = Vote.objects.filter(article=article).aggregate(Sum('value'))
         context['vote_count'] = vote_count['value__sum']
         return context
@@ -93,15 +95,44 @@ class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
-
     def get_redirect_url(self,*args,**kwargs):
         return reverse('articles:article_detail',kwargs={'slug': self.kwargs.get('slug')})
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         topic = get_object_or_404(Topic, slug= self.kwargs.get('slug'))
         context['topic'] = topic
+        return context
+
+class AddComment(SelectRelatedMixin, LoginRequiredMixin, CreateView):
+    template_name = 'comment_form.html'
+    model = Comment
+    form_class = CommentForm
+    slug_field = 'slug'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.commenter = self.request.user.user_profile
+        article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
+        self.object.article = article
+        self.object.save()
+        return super().form_valid(form)
+
+    # def get(self, request,*args,**kwargs):
+    #     article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
+    #     comment = Comment()
+    #     comment.commenter = self.request.user.user_profile
+    #     comment.article = article
+    #     comment.save()
+    #     return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('articles:article_detail', kwargs={'slug': self.kwargs.get('slug')})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        article = get_object_or_404(Article, slug= self.kwargs.get('slug'))
+        context['article'] = article
         return context
 
 

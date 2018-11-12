@@ -52,6 +52,20 @@
             {% endif %}
             {% endif %}
             </div>
+
+    <div class="button_tag">
+        {% for comment in comment_list %}
+            <h5>{{ comment.comment_body }}</h5>
+            <div class=""><h6>Created by:
+                {{comment.commenter.user }}</h6></div>
+              <div class=""><h6>Posted at: {{comment.time }}</a></h6></div>
+        {% empty %}
+            <p>Ooops, there's no comments yet.</p>
+
+        {% endfor %}
+    </div>
+
+
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
@@ -96,9 +110,6 @@
         });
     });
 </script>
-
-
-
 
 
 {% endblock %}
