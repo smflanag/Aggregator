@@ -1,5 +1,5 @@
 {% extends 'home.html' %}
-
+{% load static %}
 {% block content %}
 
     <div class="row mainbody">
@@ -81,32 +81,7 @@
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="application/javascript">
-    window.article_id = {{article.id}};
-    console.log($().jquery);
-    console.log(5 + 3);
-    $(document).ready(function(){
-        $("#upvote").click(function(){
-            $.post("/articles/"+window.article_id+"/upvote",
-                {},
-                function(response){
-                    $(".vote_count").text("Votes: " + response.vote_count);
-                    $("#i-arrow-top").css('color','green');
-                    $("#i-arrow-bottom").css('color','red');
-                 });
-            });
-        $("#downvote").click(function(){
-            $.post("/articles/"+window.article_id+"/downvote",
-                {},
-                function(response){
-                    $(".vote_count").text("Votes: " + response.vote_count);
-                    $("#i-arrow-top").css('color','red');
-                    $("#i-arrow-bottom").css('color','green');
-                }
-            );
-        });
-    });
-</script>
-
+<script>window.article_id = {{article.id}};</script>
+<script src="{% static 'articles/main.js' %}"></script>
 
 {% endblock %}
