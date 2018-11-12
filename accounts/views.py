@@ -1,3 +1,5 @@
+from time import timezone
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout
@@ -57,27 +59,15 @@ class UpdateProfile(UpdateView,LoginRequiredMixin):
     template_name = 'accounts/user_update.html'
     model = User
     fields = ('username',)
-
     slug_field = 'username'
 
-    # def get_redirect_url(self,*args,**kwargs):
-    #     return reverse('accounts:user_profile',kwargs={'slug':self.slug})
 
-    # # def get_success_url(self):
-    #     return reverse_lazy('accounts:user_profile', kwargs={'slug':self.slug_url_kwarg})
-
-    # def get_object(self, queryset=None):
-    #     obj = UserProfile.objects.get(username=self.kwargs['username'])
-    #     return obj
-
-    #
-    #
-    # def form_valid(self, form):
-    #     post = form.save(commit=False)
-    #     post.updated_by = self.request.user
-    #     post.updated_at = timezone.now()
-    #     post.save()
-    #     return redirect('topic_posts', pk=post.topic.board.pk, topic_pk=post.topic.pk)
+    def form_valid(self, form):
+        profile_page = form.save(commit=False)
+        profile_page.updated_by = self.request.user
+        profile_page.updated_at = timezone.now()
+        profile_page.save()
+        return redirect('user_profile', slug=profile_page.user.username)
 
 
 def get_user_profile(request, username):

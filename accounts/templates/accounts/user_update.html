@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<div class="article_details">
+<div class="mainbody">
+    <p>test</p>
     {% if user.is_authenticated %}
          {% if request.user == userprofile.user %}
             <form action="." method="post">{% csrf_token %}
@@ -13,7 +14,15 @@
                     </td></tr>
                 </table>
             </form>
+
+
+            <!--<form method="post">{% csrf_token %}-->
+                <!--{{ form.as_p }}-->
+            <!--<input type="submit" value="Update">-->
+            <!--</form>-->
+
 {% endif %}
+
 {% endif %}
  </div>
 {% endblock %}

@@ -15,11 +15,7 @@ class UserProfile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     topics = models.ManyToManyField(Topic)
-    # slug = models.SlugField(unique=True, default=user)
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.user)
-    #     super(UserProfile, self).save(*args, **kwargs)
 
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
