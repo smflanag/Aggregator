@@ -197,7 +197,7 @@ def csrf_clear(view_func):
     return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)
 
 @csrf_clear
-@api_view(['GET','POST',])
+@api_view(['POST',])
 def js_upvoting(request, pk):
     if request.method == 'POST':
         article = get_object_or_404(Article, id=pk)
@@ -223,12 +223,12 @@ def js_upvoting(request, pk):
     article_id = pk
     vote_count = Vote.objects.filter(article=pk).aggregate(Sum('value'))
     context = vote_count['value__sum']
-    yourdata = [{"article_id": article_id, "vote_count": context}]
-    results = VotesSerializer(yourdata, many=True).data
+    yourdata = {"article_id": article_id, "vote_count": context}
+    results = VotesSerializer(yourdata).data
     return Response(results)
 
 @csrf_clear
-@api_view(['GET','POST',])
+@api_view(['POST',])
 def js_downvoting(request, pk):
     if request.method == 'POST':
         article = get_object_or_404(Article, id=pk)
@@ -254,8 +254,8 @@ def js_downvoting(request, pk):
     article_id = pk
     vote_count = Vote.objects.filter(article=pk).aggregate(Sum('value'))
     context = vote_count['value__sum']
-    yourdata = [{"article_id": article_id, "vote_count": context}]
-    results = VotesSerializer(yourdata, many=True).data
+    yourdata = {"article_id": article_id, "vote_count": context}
+    results = VotesSerializer(yourdata).data
     return Response(results)
 
 class Downvote(LoginRequiredMixin,generic.RedirectView):
