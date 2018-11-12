@@ -53,6 +53,19 @@
             {% endif %}
             </div>
 
+
+    <div class="article_details">
+                {% if user.is_authenticated %}
+                    <div>
+                        <a>Do you want to comment on this post?</a>
+                        <a href="{% url 'articles:comment_form' slug=article.slug %}"
+                        class="btn btn-fill btn-warning button_tag">Comment
+                        </a>
+                    </div>
+                {% endif %}
+                </div>
+
+
     <div class="button_tag">
         {% for comment in comment_list %}
             <h5>{{ comment.comment_body }}</h5>
