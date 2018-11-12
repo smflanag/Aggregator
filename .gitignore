@@ -5,6 +5,7 @@
 *db.sqlite3
 *workspace.xml
 idea/
+node_modules/
 *celery.py
 
 # Compiled source #
