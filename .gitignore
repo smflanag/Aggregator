@@ -17,6 +17,7 @@ idea/
 *.so
 *.iml
 *.so
+*.pyc
 
 # Packages #
 ############
