@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum
 from django.http import Http404, HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
@@ -26,7 +26,7 @@ from articles.models import Article, Vote, Comment
 #
 #     def get_redirect_url(self,*args,**kwargs):
 #         return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
-from articles.serializers import VotesSerializer
+from articles.serializers import VotesSerializer, CommentsSerializer
 from groups.models import Topic
 
 User = get_user_model()
@@ -62,12 +62,22 @@ class UserArticle(ListView):
         context['article_user'] = self.article_user
         return context
 
-class ArticleDetail(SelectRelatedMixin, DetailView):
+
+class ArticleDetail(SelectRelatedMixin, DetailView, CreateView):
     model = Article
     select_related = ('created_by', 'topic')
     #slug_field = 'article_name'
     slug_field = 'slug'
     template_name = 'article_detail.html'
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.commenter = self.request.user.user_profile
+        article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
+        self.object.article = article
+        self.object.save()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,6 +90,7 @@ class ArticleDetail(SelectRelatedMixin, DetailView):
 
     def get_redirect_url(self,*args,**kwargs):
         return reverse('articles:article_detail',kwargs={'slug':self.slug})
+
 
 class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
     template_name = 'article_form.html'
@@ -117,14 +128,6 @@ class AddComment(SelectRelatedMixin, LoginRequiredMixin, CreateView):
         self.object.article = article
         self.object.save()
         return super().form_valid(form)
-
-    # def get(self, request,*args,**kwargs):
-    #     article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
-    #     comment = Comment()
-    #     comment.commenter = self.request.user.user_profile
-    #     comment.article = article
-    #     comment.save()
-    #     return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('articles:article_detail', kwargs={'slug': self.kwargs.get('slug')})
@@ -257,6 +260,21 @@ def js_downvoting(request, pk):
     yourdata = {"article_id": article_id, "vote_count": context}
     results = VotesSerializer(yourdata).data
     return Response(results)
+
+@csrf_clear
+def js_commenting(request, pk):
+
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = CommentsSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+# def update_comments(request):
+#     comment_list = Comment.objects.filter(article=request.article).order_by('-time')
+#     return render(request, 'comments_list.html', {'comment_list':comment_list})
 
 class Downvote(LoginRequiredMixin,generic.RedirectView):
 

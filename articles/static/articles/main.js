@@ -1,5 +1,3 @@
-
-
 $(document).ready(function(){
     $("#upvote").click(function(){
         $.post("/articles/"+window.article_id+"/upvote",
@@ -17,7 +15,9 @@ $(document).ready(function(){
                 $(".vote_count").text("Votes: " + response.vote_count);
                 $("#i-arrow-top").css('color','red');
                 $("#i-arrow-bottom").css('color','green');
-            }
-        );
-    });
+            });
+        });
+
+
+
     });

@@ -1,0 +1,23 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+<div class="button_tag" id="comment_list">
+    {% for comment in comment_list %}
+        <div class="one-comment">
+            <h5>{{ comment.comment_body }}</h5>
+            <div class="">
+                <h6>Created by: {{comment.commenter.user }}</h6>
+            </div>
+            <div class=""><h6>Posted at: {{comment.time }}</a></h6></div>
+        </div>
+    {% empty %}
+        <p>Ooops, there's no comments yet.</p>
+
+    {% endfor %}
+</div>
+
+
+
+
+{% endblock %}

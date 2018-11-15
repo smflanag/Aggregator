@@ -40,16 +40,16 @@ class Vote(models.Model):
 
 
 class Comment(models.Model):
-    commenter = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    commenter = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True) ##remove null=True
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
     comment_body = models.TextField()
     message_html = models.TextField(editable=False, default='')
     time = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.article.article_name + ' , ' + self.commenter.user.username
+    # def __str__(self):
+    #     return self.article.article_name + ' , ' + self.commenter.user.username
 
     def get_absolute_url(self):
-        return u'/article/%d' % slugify(self.article_name)
+        return u'/article/%s' % slugify(self.article)
 
 

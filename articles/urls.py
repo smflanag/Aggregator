@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.urls import path, reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from articles import views as article_views
 from articles.models import Article
@@ -17,4 +18,5 @@ urlpatterns = [
 
     path(r'articles/<int:pk>/upvote', article_views.js_upvoting),
     path(r'articles/<int:pk>/downvote', article_views.js_downvoting),
+    path(r'articles/<int:pk>/comment', article_views.js_commenting),
     ]
