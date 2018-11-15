@@ -57,6 +57,8 @@ $(document).ready(function(){
                     var output = $("<div class=\"article_details\"><h5>"+comment_body+"</h5>"+"<h6>Created by: "
                     +window.user+"</h6><h6>Posted at: "+datestring+"</h6></div>");
                     $('.comment_list').prepend(output);
+                    $(".empty_list").remove();
+                    $("#id_comment_body").val("");
                 },
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8",
