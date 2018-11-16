@@ -263,18 +263,20 @@ def js_downvoting(request, pk):
 
 @csrf_clear
 def js_commenting(request, pk):
+    if request.method == 'GET':
+        article_id = pk
+        comments = Comment.objects.filter(article_id=article_id).order_by('-time')
+        serializer = CommentsSerializer(comments, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = CommentsSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(commenter=request.user.user_profile)
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-# def update_comments(request):
-#     comment_list = Comment.objects.filter(article=request.article).order_by('-time')
-#     return render(request, 'comments_list.html', {'comment_list':comment_list})
 
 class Downvote(LoginRequiredMixin,generic.RedirectView):
 

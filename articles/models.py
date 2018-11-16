@@ -40,8 +40,8 @@ class Vote(models.Model):
 
 
 class Comment(models.Model):
-    commenter = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True) ##remove null=True
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+    commenter = models.ForeignKey(UserProfile, on_delete=models.CASCADE) ##remove null=True
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     comment_body = models.TextField()
     message_html = models.TextField(editable=False, default='')
     time = models.DateTimeField(auto_now=True)

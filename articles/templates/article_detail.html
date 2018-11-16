@@ -54,34 +54,27 @@
 
     <div>
         {% if user.is_authenticated %}
-            <div class="container">
-
-        <h3>Create New Comment</h3>
-        <label>Comment body:</label>
-        <textarea name="comment_body" cols="40" rows="3" required="" id="id_comment_body"></textarea>
-                <input class="btn btn-fill btn-warning button_tag" id="comment" value="Save">
-
-    </div>
+            <div class="article_details">
+                <h4>Create New Comment</h4>
+                <textarea class="col-md-7" name="comment_body" cols="80" rows="2" required="" id="id_comment_body"></textarea>
+                <input class="btn btn-fill btn-warning article_details col-md-3" id="comment" value="Save">
+            </div>
         {% endif %}
-
     </div>
 
 
-<div class="comment_list">
-   {% include 'comments_list.html' %}
+<div id="comment_list">
+
 </div>
 
 
 
-<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
     window.article_id = {{article.id}};
     window.user_id = {{user.id}};
     window.user = "{{user}}";
-
 </script>
-
 <script src="{% static 'articles/main.js' %}"></script>
 
 

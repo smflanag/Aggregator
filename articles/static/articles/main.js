@@ -1,4 +1,55 @@
 $(document).ready(function(){
+//    get request for comment list
+//    $().get();
+    $.ajax(
+        {
+            type: "GET",
+            url: "/articles/"+window.article_id+"/comment",
+            success: function(response){
+                var i;
+                var comment_list = $("#comment_list");
+                console.log(response);
+                var monthNames = [
+                        "Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul",
+                        "Aug", "Sep", "Oct",
+                        "Nov", "Dec"
+                        ];
+                var newHours = 0
+                var ampm = ""
+                for (i = 0; i < response.length; i++) {
+                    var user = response[i].commenter.user.username;
+                    var eg = "2018-11-15T14:07:28.441860Z"
+                    var d = response[i].time;
+                    var year = d.substr(0,4);
+                    var month = d.substr(5,2);
+                    var date = d.substr(8,2);
+                    var hours = d.substr(11,2);
+                    var minutes = d.substr(14,2);
+                    if (hours<13) {
+                        newHours = hours;
+                        ampm = " a.m.";
+                        } else if (hours === 0) {
+                        newHours = 12;
+                        ampm = " a.m.";
+                        } else {
+                        newHours = hours-12;
+                        ampm = " p.m.";}
+                    var newMonth = monthNames[month-1]
+                    var datestring = newMonth+". "+date+", "+year+", "+
+                    newHours + ":" + minutes+ampm
+                    var output = $("<div class=\"article_details\"><h5>"+response[i].comment_body+"</h5>"+"<h6>Created by: "
+                    +user+"</h6><h6>Posted at: "+datestring+"</h6></div>");
+                    $('#comment_list').append(output);
+                    }
+            },
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+         }
+         );
+
+
+//    upvote
     $("#upvote").click(function(){
         $.post("/articles/"+window.article_id+"/upvote",
             {},
@@ -8,6 +59,7 @@ $(document).ready(function(){
                 $("#i-arrow-bottom").css('color','red');
              });
         });
+//    downvote
     $("#downvote").click(function(){
         $.post("/articles/"+window.article_id+"/downvote",
             {},
@@ -17,19 +69,18 @@ $(document).ready(function(){
                 $("#i-arrow-bottom").css('color','green');
             });
         });
+//    update comment list
     $("#comment").click(function(){
         $.ajax(
             {
                 type: "POST",
                 url: "/articles/"+window.article_id+"/comment",
                 data: JSON.stringify({
-                    commenter:window.user_id,
+//                    commenter:{user:{username:window.user,id:window.user_id},id:window.user_id},
                     article: window.article_id,
                     comment_body:$("#id_comment_body").val()
-
                 }),
                 success: function(response){
-                    console.log(5);
                     var comment_body = $("#id_comment_body").val();
                     var d = new Date();
                     var hours = d.getHours()
@@ -56,7 +107,7 @@ $(document).ready(function(){
                     newHours + ":" + d.getMinutes()+ampm
                     var output = $("<div class=\"article_details\"><h5>"+comment_body+"</h5>"+"<h6>Created by: "
                     +window.user+"</h6><h6>Posted at: "+datestring+"</h6></div>");
-                    $('.comment_list').prepend(output);
+                    $('#comment_list').prepend(output);
                     $(".empty_list").remove();
                     $("#id_comment_body").val("");
                 },
