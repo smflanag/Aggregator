@@ -46,8 +46,8 @@ class Comment(models.Model):
     message_html = models.TextField(editable=False, default='')
     time = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-    #     return self.article.article_name + ' , ' + self.commenter.user.username
+    def __str__(self):
+        return self.article.article_name + ' , ' + self.commenter.user.username
 
     def get_absolute_url(self):
         return u'/article/%s' % slugify(self.article)

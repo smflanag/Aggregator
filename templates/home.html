@@ -49,22 +49,27 @@
 
 <div class="container-fluid jumbotron"><h1> Welcome to the Aggregator HomePage</h1></div>
 
+<div id="site_article_list">
+    <!--{% for article in site_article_list %}-->
+        <!--<div class="container article_lists">-->
+              <!--<div class="row">-->
+                    <!--<div class="col-md-8"><a href="{% url 'articles:article_detail' slug=article.slug %}" tabindex="1"><h2>{{ article.article_name }}</h2></a></div>-->
+                    <!--<div class="col-md-2 text-truncate"><h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic.slug %}">{{article.topic }}</a></h6></div>-->
+                    <!--<div class="col-md-2"><h6>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a></h6></div>-->
+                    <!--<div class="col-md-2"><h6>Created at: {{article.created_at }}</a></h6></div>-->
+              <!--</div>-->
+        <!--</div>-->
+    <!--{% endfor %}-->
+</div>
 
-{% for article in site_article_list %}
 
-<div class="container article_lists">
-  <div class="row">
-    <div class="col-md-8"><a href="{% url 'articles:article_detail' slug=article.slug %}" tabindex="1"><h2>{{ article.article_name }}</h2></a></div>
-    <div class="col-md-2 text-truncate"><h6>Topic: <a href="{% url 'groups:topic_detail' slug=article.topic.slug %}">{{article.topic }}</a></h6></div>
-      <div class="col-md-2"><h6>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a></h6></div>
-      <div class="col-md-2"><h6>Created at: {{article.created_at }}</a></h6></div>
-  </div>
-  </div>
-
-{% endfor %}
 {% endblock %}
-
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    window.user_id = {{user.id}};
+    window.user = "{{user}}";
+</script>
+<script src="{% static 'articles/main.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 

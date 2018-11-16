@@ -187,6 +187,7 @@ class Upvote(LoginRequiredMixin,generic.RedirectView):
 from functools import wraps
 from django.utils.decorators import available_attrs, decorator_from_middleware
 
+
 def csrf_clear(view_func):
     """
     Skips the CSRF checks by setting the 'csrf_processing_done' to true.
@@ -198,6 +199,7 @@ def csrf_clear(view_func):
         return view_func(*args, **kwargs)
 
     return wraps(view_func, assigned=available_attrs(view_func))(wrapped_view)
+
 
 @csrf_clear
 @api_view(['POST',])
@@ -230,6 +232,7 @@ def js_upvoting(request, pk):
     results = VotesSerializer(yourdata).data
     return Response(results)
 
+
 @csrf_clear
 @api_view(['POST',])
 def js_downvoting(request, pk):
@@ -260,6 +263,7 @@ def js_downvoting(request, pk):
     yourdata = {"article_id": article_id, "vote_count": context}
     results = VotesSerializer(yourdata).data
     return Response(results)
+
 
 @csrf_clear
 def js_commenting(request, pk):

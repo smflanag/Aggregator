@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from accounts.models import UserProfile
-from articles.models import Comment
-
+from articles.models import Comment, Article
+from groups.serializers import TopicSerializer
 
 
 class VotesSerializer(serializers.Serializer):
@@ -16,11 +16,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username','id')
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = UserProfile
         fields = ('user','id')
+
 
 class CommentsSerializer(serializers.ModelSerializer):
     commenter = UserProfileSerializer(read_only=True)
@@ -28,4 +30,11 @@ class CommentsSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('commenter', 'article', 'comment_body', 'time')
 
+
+class ArticleSerializer(serializers.ModelSerializer):
+    created_by = UserProfileSerializer(read_only=True)
+    topic = TopicSerializer(read_only=True)
+    class Meta:
+        model = Article
+        fields = ('created_by','created_at','article_name','topic',)
 
