@@ -5,6 +5,7 @@ $(document).ready(function(){
             type: "GET",
             url: "/article_list",
             success: function(response){
+
                 var i;
                 var article_list = $("#site_article_list");
                 var monthNames = [
@@ -16,9 +17,9 @@ $(document).ready(function(){
                 var newHours = 0
                 var ampm = ""
                 for (i = 0; i < response.length; i++) {
-                    var user = response[i].created_by.user.username;
+//                    var user = response[i].created_by.user.username;
                     var d = response[i].created_at;
-                    var topic = response[i].topic.topic_name;
+//                    var topic = response[i].topic.topic_name;
                     var year = d.substr(0,4);
                     var month = d.substr(5,2);
                     var date = d.substr(8,2);
@@ -34,18 +35,17 @@ $(document).ready(function(){
                         newHours = hours-12;
                         ampm = " p.m.";}
                     var newMonth = monthNames[month-1]
-                    var datestring = newMonth+". "+date+", "+year+", "+newHours + ":" + minutes+ampm
-                    var output = "<div class=\"container article_lists\"><div class=\"row\"><div class=\"col-md-5\"><a><h2>"
-                    +response[i].article_name+
-                    "</h2></a></div><div class=\"col-md-2 text-truncate\"><h6>Topic: <a>"
-                    +topic+
-                    "</a></h6></div><div class=\"col-md-2\"><h6>Created by: <a>"
-                    +user+
-                    "</a></h6></div><div class=\"col-md-3\"><h6>Created at: "
-                    +datestring+
-                    "</a></h6></div></div></div>";
-
-                    $('#site_article_list').append(output);
+                    var datestring = newMonth+". "+date+", "+year+", "+newHours + ":" + minutes+ampm;
+                    var view = {
+                          user: response[i].created_by.user.username,
+                          topic: response[i].topic.topic_name,
+                          time: datestring,
+                          article: response[i].article_name
+                        };
+                    var template = $('#article_template').html();
+                    Mustache.parse(template);
+                    var output = Mustache.render(template, view);
+                    $('#site_article_list').html(output);
                     }
             },
             dataType: 'json',
