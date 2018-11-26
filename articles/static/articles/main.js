@@ -14,12 +14,12 @@ $(document).ready(function(){
                         "Aug", "Sep", "Oct",
                         "Nov", "Dec"
                         ];
-                var newHours = 0
-                var ampm = ""
+                var newHours = 0;
+                var ampm = "";
+                var template = $('#article_template').html();
                 for (i = 0; i < response.length; i++) {
-//                    var user = response[i].created_by.user.username;
+
                     var d = response[i].created_at;
-//                    var topic = response[i].topic.topic_name;
                     var year = d.substr(0,4);
                     var month = d.substr(5,2);
                     var date = d.substr(8,2);
@@ -42,10 +42,10 @@ $(document).ready(function(){
                           time: datestring,
                           article: response[i].article_name
                         };
-                    var template = $('#article_template').html();
+
                     Mustache.parse(template);
                     var output = Mustache.render(template, view);
-                    $('#site_article_list').html(output);
+                    $('#site_article_list').append(output);
                     }
             },
             dataType: 'json',
