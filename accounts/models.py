@@ -29,3 +29,6 @@ class UserProfile(models.Model):
 
     def get_absolute_url(self):
         return u'/profile/%s' % self.user
+
+
+

@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<h1 class="jumbotron mainbody">Contact form</h1>
+
+<div class="article_lists">
+    <h3>Need to tell us something? Fill in the form below.</h3>
+    <form role="form" action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

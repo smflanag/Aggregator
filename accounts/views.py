@@ -4,9 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
+from django.template.loader import get_template
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, UpdateView
@@ -15,7 +17,8 @@ from django.views.generic.detail import SingleObjectMixin
 from accounts.models import User, UserProfile
 from articles.models import Article
 from articles.serializers import ArticleSerializer
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ContactForm
+
 
 def Homepage(request):
     context = {}
@@ -98,3 +101,41 @@ def get_user_profile(request, username):
     return render(request, 'accounts/user_profile.html', context)
 
 
+def Contact(request):
+    form_class = ContactForm
+
+    if request.method == 'POST':
+        form = form_class(data=request.POST)
+
+        if form.is_valid():
+            contact_name = request.POST.get(
+                'contact_name'
+                , '')
+            contact_email = request.POST.get(
+                'contact_email'
+                , '')
+            form_content = request.POST.get('content', '')
+
+            # Email the profile with the
+            # contact information
+            template = get_template('contact_template.txt')
+        context = {
+            'contact_name': contact_name,
+            'contact_email': contact_email,
+            'form_content': form_content,
+        }
+        content = template.render(context)
+
+        email = EmailMessage(
+            "New contact form submission",
+            content,
+            "Your website" + '',
+            ['youremail@gmail.com'],
+            headers={'Reply-To': contact_email}
+        )
+        email.send()
+        return redirect('home')
+
+    return render(request, 'contact_form.html',{
+        'form': form_class,
+    })
