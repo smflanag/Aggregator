@@ -5,7 +5,7 @@ $(document).ready(function(){
             type: "GET",
             url: "/article_list",
             success: function(response){
-
+//                var slugify = require('slugify')
                 var i;
                 var article_list = $("#site_article_list");
                 var monthNames = [
@@ -39,8 +39,10 @@ $(document).ready(function(){
                     var view = {
                           user: response[i].created_by.user.username,
                           topic: response[i].topic.topic_name,
+                          topic_slug: response[i].topic.topic_name.replace(/ /g,"-").toLowerCase(),
                           time: datestring,
-                          article: response[i].article_name
+                          article: response[i].article_name,
+                          article_slug: response[i].article_name.replace(/ /g,"-").toLowerCase()
                         };
 
                     Mustache.parse(template);
