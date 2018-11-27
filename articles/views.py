@@ -115,28 +115,28 @@ class ArticleCreate(SelectRelatedMixin, LoginRequiredMixin, CreateView):
         context['topic'] = topic
         return context
 
-class AddComment(SelectRelatedMixin, LoginRequiredMixin, CreateView):
-    template_name = 'comment_form.html'
-    model = Comment
-    form_class = CommentForm
-    slug_field = 'slug'
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.commenter = self.request.user.user_profile
-        article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
-        self.object.article = article
-        self.object.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('articles:article_detail', kwargs={'slug': self.kwargs.get('slug')})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        article = get_object_or_404(Article, slug= self.kwargs.get('slug'))
-        context['article'] = article
-        return context
+# class AddComment(SelectRelatedMixin, LoginRequiredMixin, CreateView):
+#     template_name = 'comment_form.html'
+#     model = Comment
+#     form_class = CommentForm
+#     slug_field = 'slug'
+#
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.commenter = self.request.user.user_profile
+#         article = get_object_or_404(Article, slug=self.kwargs.get('slug'))
+#         self.object.article = article
+#         self.object.save()
+#         return super().form_valid(form)
+#
+#     def get_success_url(self):
+#         return reverse('articles:article_detail', kwargs={'slug': self.kwargs.get('slug')})
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         article = get_object_or_404(Article, slug= self.kwargs.get('slug'))
+#         context['article'] = article
+#         return context
 
 
 class ArticleDelete(SelectRelatedMixin, LoginRequiredMixin, DeleteView):

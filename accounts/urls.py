@@ -12,7 +12,6 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^signup/$',account_views.SignUp,name='signup'),
-    url(r'^contact/$',account_views.Contact,name='contact'),
 
     url(r'profile/(?P<username>[a-zA-Z0-9]+)/$', account_views.get_user_profile, name='user_profile'),
     # url(r'profile/(?P<slug>[-\w]+)$', account_views.get_user_profile, name='user_profile'),
@@ -23,4 +22,5 @@ urlpatterns = [
     # url(r'^accounts/$', include('django.contrib.auth.urls')),
 
     path(r'article_list', account_views.article_list),
+    path(r'contact',account_views.js_contact,name='contact'),
         ]

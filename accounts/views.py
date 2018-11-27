@@ -11,8 +11,10 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
+from rest_framework.parsers import JSONParser
 
 from accounts.models import User, UserProfile
 from articles.models import Article
@@ -28,6 +30,42 @@ def Homepage(request):
         site_article_list = Article.objects.all().order_by('-created_at')
 
     context['site_article_list'] = site_article_list
+    form_class = ContactForm
+    context['form'] = form_class
+
+
+    if request.method == 'POST':
+        form = form_class(data=request.POST)
+
+        if form.is_valid():
+            contact_name = request.POST.get(
+                'contact_name'
+                , '')
+            contact_email = request.POST.get(
+                'contact_email'
+                , '')
+            form_content = request.POST.get('content', '')
+
+            # Email the profile with the
+            # contact information
+            template = get_template('contact_template.txt')
+        context = {
+            'contact_name': contact_name,
+            'contact_email': contact_email,
+            'form_content': form_content,
+        }
+        content = template.render(context)
+
+        email = EmailMessage(
+            "New contact form submission",
+            content,
+            "Your website" + '',
+            ['youremail@gmail.com'],
+            headers={'Reply-To': contact_email}
+        )
+        email.send()
+        return redirect('home')
+
     return render(request, 'home.html', context)
 
 def article_list(request):
@@ -100,42 +138,13 @@ def get_user_profile(request, username):
 
     return render(request, 'accounts/user_profile.html', context)
 
-
-def Contact(request):
-    form_class = ContactForm
-
+from articles.serializers import ContactSerializer
+@csrf_exempt
+def js_contact(request):
     if request.method == 'POST':
-        form = form_class(data=request.POST)
-
-        if form.is_valid():
-            contact_name = request.POST.get(
-                'contact_name'
-                , '')
-            contact_email = request.POST.get(
-                'contact_email'
-                , '')
-            form_content = request.POST.get('content', '')
-
-            # Email the profile with the
-            # contact information
-            template = get_template('contact_template.txt')
-        context = {
-            'contact_name': contact_name,
-            'contact_email': contact_email,
-            'form_content': form_content,
-        }
-        content = template.render(context)
-
-        email = EmailMessage(
-            "New contact form submission",
-            content,
-            "Your website" + '',
-            ['youremail@gmail.com'],
-            headers={'Reply-To': contact_email}
-        )
-        email.send()
-        return redirect('home')
-
-    return render(request, 'contact_form.html',{
-        'form': form_class,
-    })
+        data = JSONParser().parse(request)
+        serializer = ContactSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)

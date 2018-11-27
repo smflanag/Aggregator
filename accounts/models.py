@@ -32,3 +32,7 @@ class UserProfile(models.Model):
 
 
 
+class Contact(models.Model):
+    name = models.CharField(max_length=30, blank=True)
+    email = models.EmailField()
+    feedback = models.TextField(max_length=500, blank=True)

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Contact
 from articles.models import Comment, Article
 from groups.serializers import TopicSerializer
 
@@ -38,3 +38,8 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = ('created_by','created_at','article_name','topic',)
 
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ('name','email', 'feedback')
