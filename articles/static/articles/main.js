@@ -53,7 +53,6 @@ $(document).ready(function(){
             type: "GET",
             url: "/article_list",
             success: function(response){
-//                var slugify = require('slugify')
                 var i;
                 var article_list = $("#site_article_list");
                 var monthNames = [
@@ -118,6 +117,7 @@ $(document).ready(function(){
                         ];
                 var newHours = 0
                 var ampm = ""
+                var template = $('#comment_template').html();
                 for (i = 0; i < response.length; i++) {
                     var user = response[i].commenter.user.username;
                     var d = response[i].time;
@@ -136,10 +136,14 @@ $(document).ready(function(){
                         newHours = hours-12;
                         ampm = " p.m.";}
                     var newMonth = monthNames[month-1]
-                    var datestring = newMonth+". "+date+", "+year+", "+
-                    newHours + ":" + minutes+ampm
-                    var output = $("<div class=\"article_details\"><h5>"+response[i].comment_body+"</h5>"+"<h6>Created by: "
-                    +user+"</h6><h6>Posted at: "+datestring+"</h6></div>");
+                    var datestring = newMonth+". "+date+", "+year+", "+newHours + ":" + minutes+ampm
+                    var view = {
+                          comment_body: response[i].comment_body,
+                          user: user,
+                          datestring: datestring
+                        };
+                    Mustache.parse(template);
+                    var output = Mustache.render(template, view);
                     $('#comment_list').append(output);
                     }
             },
