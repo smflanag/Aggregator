@@ -2,35 +2,35 @@
 
 {% block content %}
 
-    <div class="row mainbody">
-            <div class="col-md-2 votes">
-            {% if user.is_authenticated %}
-                <a>Are you sure you want to delete?</a>
-            {% endif %}
-            </div>
-        <div class="col-md-8 article_title"><h2>{{ article.article_name }}</h2></div>
-        </div>
+<div class="row mainbody">
+    <div class="col-md-2 votes">
+        {% if user.is_authenticated %}
+            <a>Are you sure you want to delete?</a>
+        {% endif %}
+    </div>
+    <div class="col-md-8 article_title"><h2>{{ article.article_name }}</h2></div>
+</div>
 
 
-        <div class="">
-            <p class="text-center">{{ article.article_content }}</p>
-        </div>
+<div class="">
+    <p class="text-center">{{ article.article_content }}</p>
+</div>
 
 
-    <div class="topic_details">
+<div class="topic_details">
     <h4>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a> </h4>
     <h6>Created at: {{article.created_at }}</h6>
     <h6>Topic: <a href="{% url 'groups:topic_detail' slug=topic.slug %}">{{article.topic }}</a></h6>
-    <h6>Votes: {{ vote_count }} </h6></div>
+    <h6>Votes: {{ vote_count }} </h6>
+</div>
 
-    <div>
-        {% if user.is_authenticated %}
-            <form method="post">{% csrf_token %}
-                <p>Are you sure you want to delete?</p>
-                <input type="submit" value="Confirm">
-            </form>
-        {% endif %}
-
-    </div>
+<div>
+    {% if user.is_authenticated %}
+        <form method="post">{% csrf_token %}
+            <p>Are you sure you want to delete?</p>
+            <input type="submit" value="Confirm">
+        </form>
+    {% endif %}
+</div>
 
 {% endblock %}

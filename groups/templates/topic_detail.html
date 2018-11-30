@@ -2,56 +2,49 @@
 
 {% block content %}
 
-<!--<div><h1>{{ topic.topic_name }}</h1></div>-->
-<!--<div><h3>{{ topic.topic_description }}</h3></div>-->
-<!--<h6>Member Count: {{topic.members.count }}</h6>-->
-<!--<h6>Article Count: {{ topic.article.count }}</h6>-->
-
-<div class="container mainbody">
-  <div class="row">
-    <div class="col-md-8"><h1>{{ topic.topic_name }}</h1></div>
-    <div class="col-md-4"><h3>{{ topic.topic_description }}</h3></div>
-      <div class="col-md-4"><h6>Member Count: {{topic.members.count }}</h6></div>
-      <div class="col-md-4"><h6>Article Count: {{ topic.article.count }}</h6></div>
-      {% if user.is_authenticated %}
-    {% if user in topic.members.all %}
-      <div class="col-md-4"><a href="{% url 'groups:leave' slug=topic.slug  %}"
-       class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Leave Topic</a></div>
-      {% else %}
-    <div class="col-md-4"><a href="{% url 'groups:join' slug=topic.slug  %}"
-       class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Join Topic</a></div>
-      {% endif %}
-    {% endif %}
-  </div>
+<div class="new_space">
+    <div class="row">
+        <div class="col-md-7"><h1>{{ topic.topic_name }}</h1></div>
+        <div class="col-md-4"><h3>{{ topic.topic_description }}</h3></div>
+        <div class="col-md-4"><h6>Member Count: {{topic.members.count }}</h6></div>
+        <div class="col-md-3"><h6>Article Count: {{ topic.article.count }}</h6></div>
+        {% if user.is_authenticated %}
+            {% if user in topic.members.all %}
+                <div class="col-md-4"><a href="{% url 'groups:leave' slug=topic.slug  %}"
+                class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Leave Topic</a></div>
+            {% else %}
+                <div class="col-md-4"><a href="{% url 'groups:join' slug=topic.slug  %}"
+                class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span>Join Topic</a></div>
+            {% endif %}
+        {% endif %}
+    </div>
 </div>
 
-<div class="container">
+<div class="new_space">
     {% if user.is_authenticated %}
-    {% if user in topic.members.all %}
-    <p> Want to delete this topic? You can do that <a href="{% url 'groups:topic_delete' slug=topic.slug %}">here</a>.
-    </p>
-    {% endif %}
+        {% if user in topic.members.all %}
+            <p> Want to delete this topic? You can do that <a href="{% url 'groups:topic_delete' slug=topic.slug %}">here</a>.</p>
+        {% endif %}
     {% endif %}
     {% if user.is_authenticated %}
-    {% if user in topic.members.all %}
-    <p> Want to post an article in this topic?
-        <a href="{% url 'articles:article_form' slug=topic.slug %}"
-                        class="btn btn-lg btn-fill btn-warning button_tag">
-                        Create New Article</a>
-    </p>
+        {% if user in topic.members.all %}
+            <p> Want to post an article in this topic?
+                <a href="{% url 'articles:article_form' slug=topic.slug %}"
+                   class="btn btn-lg btn-fill btn-warning button_tag">Create New Article</a>
+            </p>
+        {% endif %}
     {% endif %}
-    {% endif %}
-
 </div>
 
+<div class="new_space"><h4>Articles: </h4></div>
 <div class="button_tag">
-{% for article in article_list %}
-    <a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ article.article_name }}</h2></a>
-    <div class=""><h6>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a></h6></div>
-      <div class=""><h6>Created at: {{article.created_at }}</a></h6></div>
-{% empty %}
-    <p>Ooops, there's no articles yet. {% if user in topic.members.all %} Create one above! {% endif %}</p>
-
-{% endfor %}
+    {% for article in article_list %}
+        <a href="{% url 'articles:article_detail' slug=article.slug %}"><h2>{{ article.article_name }}</h2></a>
+        <div class=""><h6>Created by: <a href="{% url 'accounts:user_profile' username=article.created_by.user %}">{{article.created_by.user }}</a></h6></div>
+        <div class=""><h6>Created at: {{article.created_at }}</a></h6></div>
+    {% empty %}
+        <p>Ooops, there's no articles yet. {% if user in topic.members.all %} Create one above! {% endif %}</p>
+    {% endfor %}
 </div>
+
 {% endblock %}

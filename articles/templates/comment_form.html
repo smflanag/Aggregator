@@ -2,30 +2,26 @@
 
 {% block content %}
 
-    <div class="row mainbody">
-        <div class="col-md-8 article_title"><h2>{{ article.article_name }}</h2></div>
-        </div>
+<div class="row mainbody">
+    <div class="col-md-8 article_title"><h2>{{ article.article_name }}</h2></div>
+</div>
 
-        <div class="">
-            <p class="text-center">{{ article.article_content }}</p>
-        </div>
+<div class="">
+    <p class="text-center">{{ article.article_content }}</p>
+</div>
 
 
-    <div class="topic_details">
+<div class="topic_details">
     <h6>Created at: {{article.created_at }}</h6>
-
-    <div>
-        {% if user.is_authenticated %}
-            <div class="container">
-
-        <h1 class="jumbotron">Create New Comment</h1>
-        <form action="" method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input class="button_tag" type="submit" value="Save" />
-        </form>
-    </div>
-        {% endif %}
-
-    </div>
+    {% if user.is_authenticated %}
+        <div class="container">
+            <h1 class="jumbotron">Create New Comment</h1>
+            <form action="" method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <input class="button_tag" type="submit" value="Save" />
+            </form>
+        </div>
+    {% endif %}
+</div>
 
 {% endblock %}

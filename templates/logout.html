@@ -2,12 +2,12 @@
 
 {% block content %}
 <div class="container mainbody">
-<h1 class="jumbotron">LogOUT</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Log me out please"/>
-</form>
+    <h1 class="jumbotron">LogOUT</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Log me out please"/>
+    </form>
 </div>
 <a class="container" href="{% url 'home' %}">Nah, I'll stay logged in for now</a>
 
