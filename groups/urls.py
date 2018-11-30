@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'topic/$', group_views.TopicList.as_view(), name='topic_list'),
     url(r'^topic/(?P<slug>[-\w]+)/', group_views.TopicDetails.as_view(), name='topic_detail'),
     url(r'^topics/$',group_views.js_topic_list),
+
     url(r'^topics/(?P<id>[0-9]+)/$', group_views.APITopicDetail.as_view()),
     url(r'topic_create/$', group_views.TopicCreate.as_view(), name='new_topic'),
     url(r'topic_delete/(?P<slug>[-\w]+)', group_views.TopicDelete.as_view(), name='topic_delete'),

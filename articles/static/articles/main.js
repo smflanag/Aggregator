@@ -130,6 +130,59 @@ $(document).ready(function(){
             contentType: "application/json; charset=utf-8",
          }
          );
+//  topic_list article_list
+    $.ajax(
+        {
+            type: "GET",
+            url: "/topic_detail/"+window.topic_id,
+            success: function(response){
+                 var i;
+                var topic_detail_articles = $("#topic_detail");
+                var monthNames = [
+                        "Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul",
+                        "Aug", "Sep", "Oct",
+                        "Nov", "Dec"
+                        ];
+                var newHours = 0
+                var ampm = ""
+                var template = $('#topic_template').html();
+                for (i = 0; i < response.length; i++) {
+                    var user = response[i].created_by.user.username;
+                    var d = response[i].created_at;
+                    var year = d.substr(0,4);
+                    var month = d.substr(5,2);
+                    var date = d.substr(8,2);
+                    var hours = d.substr(11,2);
+                    var minutes = d.substr(14,2);
+                    if (hours<13) {
+                        newHours = hours;
+                        ampm = " a.m.";
+                        } else if (hours === 0) {
+                        newHours = 12;
+                        ampm = " a.m.";
+                        } else {
+                        newHours = hours-12;
+                        ampm = " p.m.";}
+                    var newMonth = monthNames[month-1]
+                    var datestring = newMonth+". "+date+", "+year+", "+newHours + ":" + minutes+ampm
+                    var view = {
+                          article: response[i].article_name,
+                          article_created_by: response[i].created_by.user.username,
+                          time: datestring,
+
+                          article_slug: response[i].article_name.replace(/ /g,"-").toLowerCase()
+                        };
+
+                    Mustache.parse(template);
+                    var output = Mustache.render(template, view);
+                    $('#topic_detail').append(output);
+                    }
+            },
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+         }
+         );
 //  article_details comment list
     $.ajax(
         {

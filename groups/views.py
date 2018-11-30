@@ -3,7 +3,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
@@ -145,6 +145,17 @@ def js_topic_list(request):
         for data_thing in yourdata:
             serializer.append(TopicListSerializer(data_thing).data)
     return Response(serializer)
+
+
+from articles.serializers import ArticleSerializer
+@csrf_exempt
+@api_view(['GET',])
+def js_topic_detail(request,id):
+    if request.method == 'GET':
+        topic_id = id
+        articles = Article.objects.filter(topic_id=topic_id).order_by('-created_at')
+        serializer = ArticleSerializer(articles, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 
 

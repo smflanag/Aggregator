@@ -3,6 +3,7 @@ from django.urls import path, reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from articles import views as article_views
+from groups import views as group_views
 from articles.models import Article
 
 app_name = 'articles'
@@ -19,4 +20,6 @@ urlpatterns = [
     path(r'articles/<int:pk>/upvote', article_views.js_upvoting),
     path(r'articles/<int:pk>/downvote', article_views.js_downvoting),
     path(r'articles/<int:pk>/comment', article_views.js_commenting),
+
+    url(r'^topic_detail/(?P<id>[0-9]+)$',group_views.js_topic_detail),
     ]
