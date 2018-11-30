@@ -71,13 +71,33 @@ def Homepage(request):
 def article_list(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            articles = Article.objects.filter(topic__members=request.user).order_by('-created_at')
+            user_id = request.user.id
+            articles = Article.objects.filter(topic__members=user_id).order_by('-created_at')
             serializer = ArticleSerializer(articles, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
             articles =  Article.objects.all().order_by('-created_at')
             serializer = ArticleSerializer(articles, many=True)
             return JsonResponse(serializer.data, safe=False)
+
+# def js_topic_list(request):
+#     if request.method == 'GET':
+#         topics = Topic.objects.all()
+#         yourdata =[]
+#         for topic in topics:
+#             topic_id = topic.id
+#             topic_name = topic.topic_name
+#             members = topic.members.filter(topic=topic_id)
+#             articles = Article.objects.filter(topic_id=topic_id).count()
+#             yourdata.append(
+#                 {"id":topic_id,
+#                  "topic_name":topic_name,
+#                  "articles":articles,
+#                 "members":members})
+#         serializer=[]
+#         for data_thing in yourdata:
+#             serializer.append(TopicSerializer(data_thing).data)
+#     return Response(serializer)
 
 
 class LoggedInView(LoginRequiredMixin,TemplateView):

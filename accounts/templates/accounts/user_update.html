@@ -3,9 +3,8 @@
 {% block content %}
 
 <div class="mainbody">
-    <p>test</p>
     {% if user.is_authenticated %}
-         {% if request.user == userprofile.user %}
+        {% if request.user == user %}
             <form action="." method="post">{% csrf_token %}
                 <table>
                     {{ form.as_table }}
@@ -14,15 +13,8 @@
                     </td></tr>
                 </table>
             </form>
-
-
-            <!--<form method="post">{% csrf_token %}-->
-                <!--{{ form.as_p }}-->
-            <!--<input type="submit" value="Update">-->
-            <!--</form>-->
-
-{% endif %}
-
-{% endif %}
+        {% endif %}
+    {% endif %}
  </div>
+
 {% endblock %}

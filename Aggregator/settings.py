@@ -36,14 +36,16 @@ AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'accounts',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'articles',
-    'accounts',
+
+
+    'django.contrib.admin',
     'groups',
     'django_seed',
     'django_slugify_processor',

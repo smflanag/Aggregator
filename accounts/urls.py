@@ -19,7 +19,7 @@ urlpatterns = [
     # url(r'profile/(?P<username>[a-zA-Z0-9]+)/user_update/$', account_views.UpdateProfile.as_view(), name='user_update'),
     url(r'profile/(?P<slug>[-\w]+)/user_update$', account_views.UpdateProfile.as_view(), name='user_update'),
 
-    # url(r'^accounts/$', include('django.contrib.auth.urls')),
+    path(r'accounts/', include('django.contrib.auth.urls')),
 
     path(r'article_list', account_views.article_list),
     path(r'contact',account_views.js_contact,name='contact'),

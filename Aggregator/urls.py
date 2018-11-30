@@ -23,8 +23,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^$',account_views.Homepage,name='home'),
-    url(r'admin/', admin.site.urls),
     url(r'^', include('accounts.urls', namespace="accounts")),
+    path('', include('django.contrib.auth.urls')),
+    url(r'admin/', admin.site.urls),
+
     url(r'^', include('articles.urls', namespace="articles")),
     url(r'^', include('groups.urls', namespace="groups")),
     path('rest-auth/', include('rest_auth.urls')),
