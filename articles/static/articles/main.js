@@ -1,6 +1,26 @@
-$(document).ready(function(){
-//modal contact form
-    var modal_init = function() {
+var checkForm = function(e)
+  {
+    var form = (e.target) ? e.target : e.srcElement;
+    if(form.name.value == "") {
+      alert("Please enter your Name");
+      form.name.focus();
+      e.preventDefault ? e.preventDefault() : e.returnValue = false;
+      return;
+    }
+    if(form.email.value == "") {
+      alert("Please enter a valid Email address");
+      form.email.focus();
+      e.preventDefault ? e.preventDefault() : e.returnValue = false;
+      return;
+    }
+    if(form.message.value == "") {
+      alert("Please enter your comment or question in the Message box");
+      form.message.focus();
+      e.preventDefault ? e.preventDefault() : e.returnValue = false;
+      return;
+    }
+  };
+var modal_init = function() {
 
     var modalWrapper = document.getElementById("modal_wrapper");
     var modalWindow  = document.getElementById("modal_window");
@@ -47,6 +67,15 @@ $(document).ready(function(){
     }
 
   };
+if(document.addEventListener) {
+    document.getElementById("modal_feedback").addEventListener("submit", checkForm, false);
+    document.addEventListener("DOMContentLoaded", modal_init, false);
+  } else {
+    document.getElementById("modal_feedback").attachEvent("onsubmit", checkForm);
+    window.attachEvent("onload", modal_init);
+  }
+
+$(document).ready(function(){
 //  home_page article_list
     $.ajax(
         {
@@ -206,7 +235,10 @@ $(document).ready(function(){
                     var newMonth = monthNames[month];
                     var datestring = newMonth+". "+d.getDate()+", "+d.getFullYear()+", "+
                     newHours + ":" + d.getMinutes()+ampm;
-                    var output = "<div class=\"article_details\"><h5>"+comment_body+"</h5>"+"<h6>Created by: "+window.user+"</h6><h6>Posted at: "+datestring+"</h6></div>";
+                    var output = "<div class=\"article_details\"><h5>"+comment_body+
+                    "</h5><div class=\"row\"><div class=\"col-md-2\"><h6>Created by: "
+                    +window.user+"</h6></div><div class=\"col-md-4\"><h6>Posted at: "
+                    +datestring+"</h6></div></div></div>";
                     $('#comment_list').prepend(output);
                     $(".empty_list").remove();
                     $("#id_comment_body").val("");
@@ -242,4 +274,29 @@ $(document).ready(function(){
              }
              );
         });
+//  topic list
+    $.ajax(
+        {
+            type: "GET",
+            url: "/topics",
+            success: function(response){
+                var i;
+                var topic_list = $("#topic_list");
+                var template = $('#topic_template').html();
+                for (i = 0; i < response.length; i++) {
+                    var view = {
+                          topic_name: response[i].topic_name,
+                          topic_slug: response[i].topic_name.replace(/ /g,"-").toLowerCase(),
+                          num_members: (response[i].members).length,
+                          num_articles: response[i].articles
+                        };
+                    Mustache.parse(template);
+                    var output = Mustache.render(template, view);
+                    $('#topic_list').append(output);
+                    }
+            },
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+         }
+         );
     });

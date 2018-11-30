@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import Topic, User
 
 
-class TopicSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Topic
-        fields = ('id', 'topic_name', 'topic_description', 'slug')
+class TopicListSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    topic_name = serializers.CharField()
+    members = serializers.ListField(child=serializers.CharField(),min_length=None,max_length=None)
+    articles = serializers.IntegerField()

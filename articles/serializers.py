@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from accounts.models import UserProfile, Contact
 from articles.models import Comment, Article
-from groups.serializers import TopicSerializer
+from groups.models import Topic
 
 
 class VotesSerializer(serializers.Serializer):
@@ -29,6 +29,12 @@ class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('commenter', 'article', 'comment_body', 'time')
+
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic
+        fields = ('id','topic_name','topic_description','slug','members')
 
 
 class ArticleSerializer(serializers.ModelSerializer):

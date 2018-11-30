@@ -3,7 +3,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
@@ -22,7 +22,7 @@ from groups.forms import TopicForm
 from groups.models import Topic
 #from braces.views import SelectRelatedMixin, LoginRequiredMixin
 from braces.views import SelectRelatedMixin
-from groups.serializers import TopicSerializer
+from groups.serializers import TopicListSerializer
 
 # Create your views here.
 from django.views.generic import DetailView, CreateView, ListView, DeleteView
@@ -123,6 +123,28 @@ class APITopicList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
+@api_view(['GET',])
+def js_topic_list(request):
+    if request.method == 'GET':
+        topics = Topic.objects.all()
+        yourdata =[]
+        for topic in topics:
+            topic_id = topic.id
+            topic_name = topic.topic_name
+            members = topic.members.filter(topic=topic_id)
+            articles = Article.objects.filter(topic_id=topic_id).count()
+            yourdata.append(
+                {"id":topic_id,
+                 "topic_name":topic_name,
+                 "articles":articles,
+                "members":members})
+        serializer=[]
+        for data_thing in yourdata:
+            serializer.append(TopicListSerializer(data_thing).data)
+    return Response(serializer)
 
 
 
