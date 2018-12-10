@@ -76,6 +76,7 @@ if(document.addEventListener) {
   }
 
 $(document).ready(function(){
+
 //  home_page article_list
     $.ajax(
         {
@@ -177,6 +178,9 @@ $(document).ready(function(){
                     Mustache.parse(template);
                     var output = Mustache.render(template, view);
                     $('#topic_detail').append(output);
+                    if ('#topic_detail'.length != 0) {
+                        $("#empty_articles").remove();
+                    }
                     }
             },
             dataType: 'json',
@@ -227,6 +231,9 @@ $(document).ready(function(){
                     Mustache.parse(template);
                     var output = Mustache.render(template, view);
                     $('#comment_list').append(output);
+                    if ('#comment_list'.length != 0) {
+                        $("#empty_comments").remove();
+                    }
                     }
             },
             dataType: 'json',
@@ -293,7 +300,7 @@ $(document).ready(function(){
                     +window.user+"</h6></div><div class=\"col-md-4\"><h6>Posted at: "
                     +datestring+"</h6></div></div></div>";
                     $('#comment_list').prepend(output);
-                    $(".empty_list").remove();
+                    $("#empty_comments").remove();
                     $("#id_comment_body").val("");
                 },
                 dataType: 'json',

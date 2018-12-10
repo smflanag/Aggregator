@@ -5,19 +5,6 @@
 <h4 class="mainbody topic_list">Pick a topic to join:</h4>
 
 <div class="topic_list" id="topic_list">
-    <!--{% for topic in topic_list %}-->
-        <!--<a href="{% url 'groups:topic_detail' slug=topic.slug %}"><h2>{{ topic.topic_name }}</h2></a>-->
-        <!--<div class="row">-->
-            <!--<div class="col-md-2">-->
-                <!--<span class="badge">{{topic.members.count }}</span>-->
-                <!--member{{topic.members.count|pluralize}}-->
-            <!--</div>-->
-            <!--<div class="col-md-2">-->
-                <!--<span class="badge">{{topic.article.count}}</span>-->
-                <!--article{{topic.article.count|pluralize}}-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--{% endfor %}-->
 </div>
 
 
@@ -31,7 +18,7 @@
     </div>
 </div>
 <script id="topic_template" type="x-tmpl-mustache">
-    <a href="/topic/[[topic_slug]]"><h2>[[topic_name]]</h2></a>
+    <a href="/topic/[[topic_slug]]/"><h2>[[topic_name]]</h2></a>
     <div class="row">
         <div class="col-md-2">
             <p>Number of members: [[num_members]]</p>
@@ -41,4 +28,5 @@
         </div>
     </div>
 </script>
+
 {% endblock %}
