@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.http import Http404, JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
-from django.views import generic
+from django.views import generic, View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.detail import SingleObjectMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -123,6 +123,21 @@ class APITopicList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TopicReact(View):
+    title = "Topics"
+    template = 'topics.html'
+
+    def get(self, request):
+        topics = list(Topic.objects.values('id', 'topic_name'))
+
+        context = {
+            'topic_name': self.title,
+            'props': topics,
+        }
+
+        return render(request, self.template, context)
 
 
 @csrf_exempt

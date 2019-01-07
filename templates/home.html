@@ -1,3 +1,4 @@
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -25,6 +26,12 @@
             </div>
         </div>
     </script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+      <meta charset="utf-8">
+
 </head>
 
 <body>
@@ -80,18 +87,38 @@
         </div> <!-- #modal_window -->
     </div> <!-- #modal_wrapper -->
 
+
+
+
     {% block content %}
+
+
+
+
+
 
     <div class="container-fluid jumbotron"><h1> Welcome to the Aggregator HomePage</h1></div>
 
-    <div id="site_article_list">
-    </div>
+    <!--<div id="site_article_list">-->
+    <!--</div>-->
+
+    <div id="react"></div>
+
+    <script>
+      window.props = {{ props|safe }};
+      window.react_mount = document.getElementById('react');
+    </script>
+
+    {% render_bundle 'main' %}
 
 
     {% endblock %}
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="{% static 'articles/mustache.min.js' %}"></script>
     <script>$(function() { Mustache.tags = ['[[', ']]']; })</script>
+
+
+
 
     <script>
         window.user_id = {{user.id}};

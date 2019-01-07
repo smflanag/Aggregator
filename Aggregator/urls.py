@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from accounts import views as account_views
+from articles import views as article_views
 from groups import urls
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    url(r'^$',account_views.Homepage,name='home'),
+    url(r'^$',article_views.ArticlesReact.as_view(),name='home'),
     url(r'^', include('accounts.urls', namespace="accounts")),
     path('', include('django.contrib.auth.urls')),
     url(r'admin/', admin.site.urls),

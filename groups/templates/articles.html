@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+{% load render_bundle from webpack_loader %}
+
+{% block content %}
+ <h1>Articles</h1>
+ <div id="react"></div>
+<script>
+  window.props = {{ props|safe }};
+  window.react_mount = document.getElementById('react');
+</script>
+  {% render_bundle 'main' %}
+
+ {% endblock %}

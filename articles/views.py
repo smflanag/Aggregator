@@ -7,7 +7,7 @@ from django.db.models import Sum
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from braces.views import SelectRelatedMixin, LoginRequiredMixin
@@ -239,6 +239,19 @@ def js_downvoting(request, pk):
     results = VotesSerializer(yourdata).data
     return Response(results)
 
+class ArticlesReact(View):
+    title = "Articles"
+    template = 'home.html'
+
+    def get(self, request):
+        articles = list(Article.objects.values('id', 'article_name'))
+
+        context = {
+            'article_name': self.title,
+            'props': articles,
+        }
+
+        return render(request, self.template, context)
 
 @csrf_clear
 def js_commenting(request, pk):

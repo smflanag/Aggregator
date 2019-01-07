@@ -42,7 +42,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     topic = TopicSerializer(read_only=True)
     class Meta:
         model = Article
-        fields = ('created_by','created_at','article_name','topic',)
+        fields = ('created_by','created_at','article_name','topic', 'id')
 
 
 class ContactSerializer(serializers.ModelSerializer):

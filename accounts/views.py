@@ -24,12 +24,12 @@ from .forms import RegistrationForm, ContactForm
 
 def Homepage(request):
     context = {}
-    if request.user.is_authenticated:
-        site_article_list = Article.objects.filter(topic__members=request.user).order_by('-created_at')
-    else:
-        site_article_list = Article.objects.all().order_by('-created_at')
-
-    context['site_article_list'] = site_article_list
+    # if request.user.is_authenticated:
+    #     site_article_list = Article.objects.filter(topic__members=request.user).order_by('-created_at')
+    # else:
+    #     site_article_list = Article.objects.all().order_by('-created_at')
+    #
+    # context['site_article_list'] = site_article_list
     form_class = ContactForm
     context['form'] = form_class
 
