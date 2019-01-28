@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^article/(?P<slug>[-\w]+)', article_views.ArticleDetail.as_view(), name='article_detail'),
 
     path('articles/', account_views.article_list),
+    url(r'^article_details/(?P<id>[0-9]+)/$', article_views.js_article_detail),
 
     url(r'^article/(?P<slug>[-\w]+)/delete', article_views.ArticleDelete.as_view(), name='article_delete'),
 

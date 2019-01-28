@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 function Topic(props) {
   return <div className="topic">
-        <span>{props.topic_name}</span>
+        <Link to={`/topics/${props.id}`}>{props.topic_name}</Link>
     </div>;
 }
 
 export default Topic;
+

@@ -24,11 +24,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('user','id')
 
 
-class CommentsSerializer(serializers.ModelSerializer):
-    commenter = UserProfileSerializer(read_only=True)
+
+class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
-        fields = ('commenter', 'article', 'comment_body', 'time')
+        model = User
+        fields = ('id', 'username', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'],
+                                        None,
+                                        validated_data['password'])
+        return user
+
 
 
 class TopicSerializer(serializers.ModelSerializer):
@@ -43,6 +51,18 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('created_by','created_at','article_name','topic', 'id')
+
+class ArticleSerializerAPI(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ('article_name','id')
+
+class CommentsSerializer(serializers.ModelSerializer):
+    commenter = UserProfileSerializer(read_only=True)
+    article = ArticleSerializer(read_only=True)
+    class Meta:
+        model = Comment
+        fields = ('commenter', 'article', 'comment_body', 'time', 'id')
 
 
 class ContactSerializer(serializers.ModelSerializer):

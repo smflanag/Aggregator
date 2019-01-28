@@ -8,29 +8,15 @@ class TopicCollection extends Component {
     topics: []
   };
     componentDidMount() {
-    axios
-      .get("http://127.0.0.1:8000/topics/")
-      .then(response => {
-
-        // create an array of contacts only with relevant data
-        const newTopics = response.data.map(t => {
-          return {
-            id: t.id,
-            topic_name: t.topic_name
-          };
-        });
-
-        // create a new "State" object without mutating
-        // the original State object.
-        const newState = Object.assign({}, this.state, {
-          topics: newTopics
-        });
-
-        // store the new state object in the component's state
-        this.setState(newState);
-      })
-      .catch(error => console.log(error));
-  }
+        axios
+        .get("http://127.0.0.1:8000/topics/")
+        .then(response => {
+            const newTopics = response.data;
+            // store the new state object in the component's state
+            this.setState({topics: newTopics});
+        })
+        .catch(error => console.log(error));
+    };
 
   render() {
     return (

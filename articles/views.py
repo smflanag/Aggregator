@@ -11,10 +11,11 @@ from django.views import generic, View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from braces.views import SelectRelatedMixin, LoginRequiredMixin
-from rest_framework import viewsets, renderers, views
+from rest_framework import viewsets, renderers, views, status
 from rest_framework.decorators import action, api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from accounts.models import UserProfile
 from articles.forms import ArticleForm, CommentForm
@@ -26,10 +27,13 @@ from articles.models import Article, Vote, Comment
 #
 #     def get_redirect_url(self,*args,**kwargs):
 #         return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
-from articles.serializers import VotesSerializer, CommentsSerializer
+from articles.serializers import VotesSerializer, CommentsSerializer, ArticleSerializer
 from groups.models import Topic
 
+from rest_framework import viewsets, permissions
+
 User = get_user_model()
+
 
 
 class ArticleList(SelectRelatedMixin, LoginRequiredMixin, ListView):
@@ -296,3 +300,12 @@ class Downvote(LoginRequiredMixin,generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         return reverse('articles:article_detail', kwargs={'slug': self.kwargs.get('slug')})
+
+@csrf_exempt
+@api_view(['GET',])
+def js_article_detail(request,id):
+    if request.method == 'GET':
+        article_id = id
+        comments = Comment.objects.filter(article_id=article_id).order_by('-time')
+        serializer = CommentsSerializer(comments, many=True)
+        return JsonResponse(serializer.data, safe=False)
