@@ -180,6 +180,6 @@ EMAIL_PORT = 1025
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'bundles/',
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, 'Aggregator','webpack-stats.json'),
     }
 }
