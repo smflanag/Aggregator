@@ -32,6 +32,7 @@ class CommentsSerializer(serializers.ModelSerializer):
 
 
 class TopicSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Topic
         fields = ('id','topic_name','topic_description','slug','members')
