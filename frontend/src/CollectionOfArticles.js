@@ -34,9 +34,14 @@ class ArticleCollection extends Component {
 
   render() {
     return (
-      <div>
-        <ArticleList articles={this.state.articles} />
-      </div>
+        <div>
+            <div className="page-header">
+                <h2>What article would you like to read?</h2>
+            </div>
+            <div>
+                <ArticleList articles={this.state.articles} />
+            </div>
+        </div>
     );
   }
 }

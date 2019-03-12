@@ -34,9 +34,14 @@ class TopicCollection extends Component {
 
   render() {
     return (
-      <div>
-        <TopicList topics={this.state.topics} />
-      </div>
+            <div>
+                <div className="page-header">
+                    <h2>What topic would you like to explore?</h2>
+                </div>
+                <div>
+                    <TopicList topics={this.state.topics} />
+                </div>
+            </div>
     );
   }
 }
