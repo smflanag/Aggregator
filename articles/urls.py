@@ -12,6 +12,7 @@ app_name = 'articles'
 
 router = DefaultRouter()
 router.register('articles', article_views.ArticleViewSet, 'articles')
+router.register('topics', group_views.TopicViewSet, 'topics')
 
 urlpatterns = [
     url(r'^topic/(?P<slug>[-\w]+)/create_article/$', article_views.ArticleCreate.as_view(), name='article_form'),

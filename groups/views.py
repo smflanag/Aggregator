@@ -23,6 +23,7 @@ from groups.models import Topic
 #from braces.views import SelectRelatedMixin, LoginRequiredMixin
 from braces.views import SelectRelatedMixin
 from groups.serializers import TopicListSerializer
+from rest_framework import viewsets
 
 # Create your views here.
 from django.views.generic import DetailView, CreateView, ListView, DeleteView
@@ -201,3 +202,11 @@ class APITopicDetail(APIView):
         topic.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class TopicViewSet(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        return Topic.objects.all()
+    serializer_class = TopicSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()

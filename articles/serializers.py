@@ -28,7 +28,7 @@ class CommentsSerializer(serializers.ModelSerializer):
     commenter = UserProfileSerializer(read_only=True)
     class Meta:
         model = Comment
-        fields = ('commenter', 'article', 'comment_body', 'time')
+        fields = ('commenter', 'article', 'comment_body', 'time', 'id')
 
 
 class TopicSerializer(serializers.ModelSerializer):
