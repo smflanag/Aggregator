@@ -26,7 +26,7 @@ from articles.models import Article, Vote, Comment
 #
 #     def get_redirect_url(self,*args,**kwargs):
 #         return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
-from articles.serializers import VotesSerializer, CommentsSerializer
+from articles.serializers import VotesSerializer, CommentsSerializer, ArticleSerializer
 from groups.models import Topic
 
 User = get_user_model()
@@ -245,13 +245,22 @@ class ArticlesReact(View):
 
     def get(self, request):
         articles = list(Article.objects.values('id', 'article_name'))
-
         context = {
             'article_name': self.title,
             'props': articles,
         }
-
         return render(request, self.template, context)
+
+class ArticleViewSet(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        return Article.objects.all()
+    serializer_class = ArticleSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
 
 @csrf_clear
 def js_commenting(request, pk):

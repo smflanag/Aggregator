@@ -23,8 +23,8 @@ from groups import urls
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    # url(r'^$',article_views.ArticlesReact.as_view(),name='home'),
-    path('',article_views.ArticlesReact.as_view(),name='articles'),
+    url(r'^$',article_views.ArticlesReact.as_view(),name='home'),
+    # path('',article_views.ArticlesReact.as_view(),name='articles'),
     url(r'^', include('accounts.urls', namespace="accounts")),
     path('', include('django.contrib.auth.urls')),
     url(r'admin/', admin.site.urls),
