@@ -43,3 +43,4 @@ class ArticleCollection extends Component {
 
 
 export default ArticleCollection;
+

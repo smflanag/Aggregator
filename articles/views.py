@@ -241,7 +241,7 @@ def js_downvoting(request, pk):
 
 class ArticlesReact(View):
     title = "Articles"
-    template = 'home.html'
+    template = 'index.html'
 
     def get(self, request):
         articles = list(Article.objects.values('id', 'article_name'))

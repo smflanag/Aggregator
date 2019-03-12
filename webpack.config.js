@@ -5,10 +5,10 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
   context: __dirname,
 
-  entry: './aggregator-react/aggregator/static/js/index',
+  entry: './src/index',
 
   output: {
-      path: path.resolve('./aggregator-react/aggregator/static/bundles/'),
+      path: path.resolve('./static/bundles/'),
       filename: "[name]-[hash].js",
   },
 
@@ -18,10 +18,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      }
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['react', 'env']
+                    }}}
     ]
   },
   resolve: {
