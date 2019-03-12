@@ -162,7 +162,9 @@ def js_topic_list(request):
     return Response(serializer)
 
 
-from articles.serializers import ArticleSerializer
+from articles.serializers import ArticleSerializer, TopicSerializer
+
+
 @csrf_exempt
 @api_view(['GET',])
 def js_topic_detail(request,id):
@@ -173,23 +175,28 @@ def js_topic_detail(request,id):
         return JsonResponse(serializer.data, safe=False)
 
 
-
-class APITopicDetail(APIView):
-    """
+"""
     Retrieve, update or delete a topic
-    """
+"""
+class APITopicDetail(APIView):
+
     def get_object(self,id):
         try:
             return Topic.objects.get(id=id)
         except Topic.DoesNotExist:
             raise Http404
 
-    def put(self,request, id, format=None):
+    def get(self, request, id, format=None):
         topic = self.get_object(id)
         serializer = TopicSerializer(topic)
         return Response(serializer.data)
 
-    def delete(self,request,id,format=None):
+    def put(self, request, id, format=None):
+        topic = self.get_object(id)
+        serializer = TopicSerializer(topic)
+        return Response(serializer.data)
+
+    def delete(self, request,id,format=None):
         topic = self.get_object(id)
         topic.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -9,7 +9,7 @@ app_name = 'groups'
 urlpatterns = [
     url(r'topic/$', group_views.TopicList.as_view(), name='topic_list'),
     url(r'^topic/(?P<slug>[-\w]+)/$', group_views.TopicDetails.as_view(), name='topic_detail'),
-    url(r'^topics/$',group_views.js_topic_list),
+    #url(r'^topics/$',group_views.js_topic_list),
 
     # path('topics/', group_views.TopicReact.as_view(), name='topicReact'),
 
