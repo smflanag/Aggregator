@@ -10,7 +10,7 @@ class TopicDetail extends Component {
         this.setState({loaded1:false});
         this.setState({loaded2:false});
         axios
-        .get("http://127.0.0.1:8000/topic_detail/" + this.props.match.params.topicId)
+        .get("/topic_detail/" + this.props.match.params.topicId)
         .then(response => {
             const newArticles = response.data;
             this.setState({articles:newArticles});
@@ -18,7 +18,7 @@ class TopicDetail extends Component {
         })
         .catch(error => console.log(error));
         axios
-            .get("http://127.0.0.1:8000/topics/"+this.props.match.params.topicId+"/")
+            .get("/topics/"+this.props.match.params.topicId+"/")
             .then( response => {
             const this_topic_name = response.data.topic_name;
             const this_topic_desc = response.data.topic_description;

@@ -10,7 +10,7 @@ class ArticleCollection extends Component {
 
     componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/articles/")
+      .get("/articles/")
       .then(response => {
         const newArticles = response.data;
         this.setState({articles:newArticles});

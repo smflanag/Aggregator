@@ -9,7 +9,7 @@ class TopicCollection extends Component {
   };
     componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/topics/")
+      .get("/topics/")
       .then(response => {
         const newTopics = response.data;
         this.setState({topics:newTopics});
