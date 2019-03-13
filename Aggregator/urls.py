@@ -16,11 +16,12 @@ Including another accountURLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import include, path
+from django.urls import include, path, re_path
 from accounts import views as account_views
 from articles import views as article_views
 from groups import urls
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^$',article_views.ArticlesReact.as_view(),name='home'),
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^', include('articles.urls', namespace="articles")),
     url(r'^', include('groups.urls', namespace="groups")),
     path('rest-auth/', include('rest_auth.urls')),
+    re_path('.*', TemplateView.as_view(template_name='index.html')),
     ]
 
 urlpatterns += staticfiles_urlpatterns()
