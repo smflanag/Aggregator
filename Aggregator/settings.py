@@ -30,7 +30,7 @@ SECRET_KEY = '(*(r94es!atjcm!$q*w*^fue&r5_8$6p5al&dx6me)sdep=nrd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['aggregator-app.herokuapp.com']
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 # Application definition
@@ -140,6 +140,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGGING = {
     'version': 1,
