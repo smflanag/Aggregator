@@ -9,13 +9,13 @@ class ArticleCollection extends Component {
   };
 
     componentDidMount() {
-    axios
-      .get("/articles/")
-      .then(response => {
-        const newArticles = response.data;
-        this.setState({articles:newArticles});
-        })
-      .catch(error => console.log(error));
+        axios
+          .get("/articles/")
+          .then(response => {
+            const newArticles = response.data;
+            this.setState({articles:newArticles});
+            })
+          .catch(error => console.log(error));
   };
 
   render() {

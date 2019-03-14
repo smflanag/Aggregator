@@ -35,6 +35,9 @@ class TopicDetail extends Component {
             <div className="page-header">
                 <h1>{this.state.this_topic_name}</h1>
                 <h3>{this.state.this_topic_desc}</h3>
+            </div>
+
+            <div>
                 <h2>Articles in this topic include:</h2>
             </div>
             <div>
