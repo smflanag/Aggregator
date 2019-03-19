@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'webpack_loader',
     'corsheaders',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -168,13 +169,15 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': (
     #      'rest_framework.permissions.IsAuthenticated',
     # ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+            'knox.auth.TokenAuthentication',
     #     'rest_framework.authentication.BasicAuthentication',
     #     # 'rest_framework.authentication.SessionAuthentication',
     #     # 'rest_framework.authentication.TokenAuthentication',
-    # ),
+    ),
 ##removed for react api functionality
 }
+
 
 EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'testing@example.com'
