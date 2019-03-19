@@ -5,8 +5,6 @@ import axios from 'axios';
 window.token= "";
 class Login extends Component {
     state = {
-    isLoggedIn:false,
-    token:""
     };
 
 
@@ -17,7 +15,6 @@ class Login extends Component {
           })
           .then(res => {
             if (res.status === 200) {
-              this.setState({isLoggedIn: true});
               window.token = res.data.token;
             } else if (res.status === 401 || res.status === 403) {
               console.log("AUTHENTICATION_ERROR");
@@ -31,7 +28,7 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.isLoggedIn) {
+    if (!window.token === "") {
       return <Redirect to="/" />
     }
     return (

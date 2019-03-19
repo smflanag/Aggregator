@@ -5,7 +5,7 @@ import axios from 'axios';
 
 class Register extends Component {
 
-  state = {isLoggedIn:false};
+  state = {};
 
     register = (username, password) => {
         axios.post('/api/auth/register/', {
@@ -14,7 +14,7 @@ class Register extends Component {
           })
           .then(res => {
             if (res.status === 200) {
-              this.setState({isLoggedIn: true});
+              window.token = res.data.token;
             } else if (res.status === 401 || res.status === 403) {
               console.log("AUTHENTICATION_ERROR");
               throw res.data;
@@ -27,7 +27,7 @@ class Register extends Component {
   }
 
   render() {
-    if (this.state.isLoggedIn) {
+    if (!window.token === "") {
       return <Redirect to="/" />
     }
     return (
