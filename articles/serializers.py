@@ -14,7 +14,7 @@ class VotesSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username','id')
+        fields = ('username','id', 'password')
 
 
 class UserProfileSerializer(serializers.ModelSerializer):

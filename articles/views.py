@@ -19,6 +19,8 @@ from rest_framework.response import Response
 from accounts.models import UserProfile
 from articles.forms import ArticleForm, CommentForm
 from articles.models import Article, Vote, Comment
+from knox.models import AuthToken
+
 
 # class ArticleCreate(CreateView):
 #     model = Article

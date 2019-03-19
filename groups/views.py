@@ -206,6 +206,7 @@ class TopicViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Topic.objects.all()
+
     serializer_class = TopicSerializer
 
     def perform_create(self, serializer):
