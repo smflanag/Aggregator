@@ -32,6 +32,7 @@ class App extends Component {
   }
 
 
+
   render() {
     let {PrivateRoute} = this;
     return (
