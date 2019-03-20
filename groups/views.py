@@ -163,7 +163,7 @@ def js_topic_list(request):
     return Response(serializer)
 
 
-from articles.serializers import ArticleSerializer, TopicSerializer
+from articles.serializers import ArticleViewSerializer, TopicSerializer
 
 
 @csrf_exempt
@@ -172,7 +172,7 @@ def js_topic_detail(request,id):
     if request.method == 'GET':
         topic_id = id
         articles = Article.objects.filter(topic_id=topic_id).order_by('-created_at')
-        serializer = ArticleSerializer(articles, many=True)
+        serializer = ArticleViewSerializer(articles, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 

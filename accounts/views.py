@@ -22,7 +22,7 @@ from rest_framework.parsers import JSONParser
 from accounts.models import User, UserProfile
 from accounts.serializers import CreateUserSerializer, LoginUserSerializer
 from articles.models import Article
-from articles.serializers import ArticleSerializer, UserProfileSerializer, UserSerializer
+from articles.serializers import UserProfileSerializer, UserSerializer, ArticleViewSerializer
 from .forms import RegistrationForm, ContactForm
 
 
@@ -77,11 +77,11 @@ def article_list(request):
         if request.user.is_authenticated:
             user_id = request.user.id
             articles = Article.objects.filter(topic__members=user_id).order_by('-created_at')
-            serializer = ArticleSerializer(articles, many=True)
+            serializer = ArticleViewSerializer(articles, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
             articles =  Article.objects.all().order_by('-created_at')
-            serializer = ArticleSerializer(articles, many=True)
+            serializer = ArticleViewSerializer(articles, many=True)
             return JsonResponse(serializer.data, safe=False)
 
 # def js_topic_list(request):

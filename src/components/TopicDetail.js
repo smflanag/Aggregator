@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import ArticleList from './ArticleList';
 import axios from 'axios';
-
+window.current_topic = "";
 
 class TopicDetail extends Component {
     state = {
-    articles: []};
+    articles: []
+    };
     componentDidMount() {
         this.setState({loaded1:false});
         this.setState({loaded2:false});
         axios
         .get("/topic_detail/" + this.props.match.params.topicId)
         .then(response => {
+            window.current_topic = this.props.match.params.topicId;
             const newArticles = response.data;
             this.setState({articles:newArticles});
             this.setState({loaded1:true})
@@ -40,6 +43,11 @@ class TopicDetail extends Component {
             <div>
                 <h2>Articles in this topic include:</h2>
             </div>
+
+            <p>
+            Want to add an article? Add one <Link to="/newpost">here</Link>.
+            </p>
+
             <div>
                 <ArticleList articles={this.state.articles} />
             </div>

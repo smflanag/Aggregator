@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import CommentList from './CommentList';
 
+window.current_topic = "";
 
 class ArticleDetail extends Component {
         state = {
@@ -13,6 +14,7 @@ class ArticleDetail extends Component {
         .get("/api/articles/" + this.props.match.params.articleId+"/")
         .then(response => {
             const article = response.data;
+            window.current_topic = response.data.topic.id;
             this.setState(article);
             this.setState({loaded1:true})
         })

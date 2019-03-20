@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^article/(?P<slug>[-\w]+)', article_views.ArticleDetail.as_view(), name='article_detail'),
 
     path('articles/', account_views.article_list),
-
+    url(r'^api/article_view$', article_views.ArticleAddSet.as_view({'get': 'list','post': 'create'}), name='article_add'),
     url(r'^article/(?P<slug>[-\w]+)/delete', article_views.ArticleDelete.as_view(), name='article_delete'),
 
 

@@ -3,6 +3,7 @@ import {Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 
 window.token= "";
+window.user = "";
 class Login extends Component {
     state = {
     };
@@ -16,6 +17,7 @@ class Login extends Component {
           .then(res => {
             if (res.status === 200) {
               window.token = res.data.token;
+              window.user = res.data.user.id;
             } else if (res.status === 401 || res.status === 403) {
               console.log("AUTHENTICATION_ERROR");
               throw res.data;

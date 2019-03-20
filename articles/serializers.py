@@ -38,13 +38,17 @@ class TopicSerializer(serializers.ModelSerializer):
         fields = ('id','topic_name','topic_description','slug','members')
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class ArticleViewSerializer(serializers.ModelSerializer):
     created_by = UserProfileSerializer(read_only=True)
     topic = TopicSerializer(read_only=True)
     class Meta:
         model = Article
         fields = ('created_by','created_at','article_name', 'article_content','topic', 'id')
 
+class ArticleAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ('created_by','created_at','article_name', 'article_content','topic', 'id')
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:

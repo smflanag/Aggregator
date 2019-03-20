@@ -4,6 +4,7 @@ import ArticleCollection from "./CollectionOfArticles";
 import TopicCollection from "./CollectionOfTopics";
 import Home from "./Home";
 import MyPosts from "./MyPosts";
+import NewPost from './NewPost';
 import Login from "./Login";
 import Register from "./Register";
 import TopicDetail from "./components/TopicDetail";
@@ -12,7 +13,7 @@ import {
   Route,
   NavLink,
   BrowserRouter,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 
 class App extends Component {
@@ -58,6 +59,7 @@ class App extends Component {
                   <Route exact path="/register" component={Register} />
                   <PrivateRoute exact path="/myposts" component={MyPosts} />
 
+                  <PrivateRoute exact path="/newpost" component={NewPost}/>
                   <Route exact path={`/articles/:articleId`} component={ArticleDetail}/>
                   <Route exact path={`/topics/:topicId`} component={TopicDetail}/>
             </div>
