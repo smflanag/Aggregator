@@ -16,6 +16,7 @@ class Register extends Component {
             if (res.status === 200) {
               window.token = res.data.token;
               window.user = res.data.user.id;
+              this.props.history.push('/');
             } else if (res.status === 401 || res.status === 403) {
               console.log("AUTHENTICATION_ERROR");
               throw res.data;

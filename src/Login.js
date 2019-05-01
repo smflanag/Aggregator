@@ -16,6 +16,7 @@ class Login extends Component {
           })
           .then(res => {
             if (res.status === 200) {
+              this.props.history.push('/');
               window.token = res.data.token;
               window.user = res.data.user.id;
             } else if (res.status === 401 || res.status === 403) {

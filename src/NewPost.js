@@ -21,7 +21,7 @@ class NewPost extends Component {
             })
           .then(res => {
             if (res.status === 200) {
-              console.log("Post successful");
+              this.props.history.push('/articles');
             } else if (res.status === 401 || res.status === 403) {
               console.log("AUTHENTICATION_ERROR");
               throw res.data;
