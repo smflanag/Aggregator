@@ -31,7 +31,7 @@ SECRET_KEY = '(*(r94es!atjcm!$q*w*^fue&r5_8$6p5al&dx6me)sdep=nrd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aggregator-app.herokuapp.com']
+ALLOWED_HOSTS = ['aggregator-app.herokuapp.com', 'aggregator.sarah.land']
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 # Application definition
