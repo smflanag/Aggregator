@@ -19,6 +19,8 @@ from rest_framework.response import Response
 from accounts.models import UserProfile
 from articles.forms import ArticleForm, CommentForm
 from articles.models import Article, Vote, Comment
+from knox.models import AuthToken
+
 
 # class ArticleCreate(CreateView):
 #     model = Article
@@ -26,7 +28,8 @@ from articles.models import Article, Vote, Comment
 #
 #     def get_redirect_url(self,*args,**kwargs):
 #         return reverse('groups:topic_detail',kwargs={'slug':self.kwargs.get('slug')})
-from articles.serializers import VotesSerializer, CommentsSerializer, ArticleSerializer
+from articles.serializers import VotesSerializer, CommentsSerializer, ArticleViewSerializer, \
+    ArticleAddSerializer
 from groups.models import Topic
 
 User = get_user_model()
@@ -252,15 +255,18 @@ class ArticlesReact(View):
         return render(request, self.template, context)
 
 class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleViewSerializer
+
+
+class ArticleAddSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Article.objects.all()
-    serializer_class = ArticleSerializer
+    serializer_class = ArticleAddSerializer
 
     def perform_create(self, serializer):
         serializer.save()
-
-
 
 @csrf_clear
 def js_commenting(request, pk):

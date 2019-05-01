@@ -14,11 +14,15 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
+from requests import Response
+from rest_framework import viewsets, renderers
+from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser
 
 from accounts.models import User, UserProfile
+from accounts.serializers import CreateUserSerializer, LoginUserSerializer
 from articles.models import Article
-from articles.serializers import ArticleSerializer
+from articles.serializers import UserProfileSerializer, UserSerializer, ArticleViewSerializer
 from .forms import RegistrationForm, ContactForm
 
 
@@ -73,11 +77,11 @@ def article_list(request):
         if request.user.is_authenticated:
             user_id = request.user.id
             articles = Article.objects.filter(topic__members=user_id).order_by('-created_at')
-            serializer = ArticleSerializer(articles, many=True)
+            serializer = ArticleViewSerializer(articles, many=True)
             return JsonResponse(serializer.data, safe=False)
         else:
             articles =  Article.objects.all().order_by('-created_at')
-            serializer = ArticleSerializer(articles, many=True)
+            serializer = ArticleViewSerializer(articles, many=True)
             return JsonResponse(serializer.data, safe=False)
 
 # def js_topic_list(request):
@@ -168,3 +172,59 @@ def js_contact(request):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
+    def get_current(self, request):
+        current_user = User.objects.filter(user_id=request)
+        serializer = UserSerializer(current_user)
+        return Response(serializer.data)
+
+    serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+from rest_framework import permissions, generics
+from rest_framework.response import Response
+
+from knox.models import AuthToken
+
+
+class RegistrationAPI(generics.GenericAPIView):
+    serializer_class = CreateUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)
+        })
+
+
+class LoginAPI(generics.GenericAPIView):
+    serializer_class = LoginUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)
+        })
+
+
+class UserAPI(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user

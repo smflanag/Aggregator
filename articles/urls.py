@@ -13,6 +13,8 @@ app_name = 'articles'
 router = DefaultRouter()
 router.register('articles', article_views.ArticleViewSet, 'articles')
 router.register('topics', group_views.TopicViewSet, 'topics')
+router.register('users', account_views.UserViewSet, 'users')
+
 
 urlpatterns = [
     url(r'^topic/(?P<slug>[-\w]+)/create_article/$', article_views.ArticleCreate.as_view(), name='article_form'),
@@ -22,7 +24,7 @@ urlpatterns = [
     url(r'^article/(?P<slug>[-\w]+)', article_views.ArticleDetail.as_view(), name='article_detail'),
 
     path('articles/', account_views.article_list),
-
+    url(r'^api/article_view$', article_views.ArticleAddSet.as_view({'get': 'list','post': 'create'}), name='article_add'),
     url(r'^article/(?P<slug>[-\w]+)/delete', article_views.ArticleDelete.as_view(), name='article_delete'),
 
 
@@ -31,4 +33,5 @@ urlpatterns = [
     path(r'articles/<int:pk>/comment', article_views.js_commenting),
 
     url(r'^api/', include(router.urls)),
+
     ]

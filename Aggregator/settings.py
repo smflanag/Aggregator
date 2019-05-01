@@ -31,7 +31,7 @@ SECRET_KEY = '(*(r94es!atjcm!$q*w*^fue&r5_8$6p5al&dx6me)sdep=nrd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aggregator-app.herokuapp.com']
+ALLOWED_HOSTS = ['aggregator-app.herokuapp.com', 'aggregator.sarah.land']
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 # Application definition
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'webpack_loader',
     'corsheaders',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -168,13 +169,15 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': (
     #      'rest_framework.permissions.IsAuthenticated',
     # ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+            'knox.auth.TokenAuthentication',
     #     'rest_framework.authentication.BasicAuthentication',
     #     # 'rest_framework.authentication.SessionAuthentication',
     #     # 'rest_framework.authentication.TokenAuthentication',
-    # ),
+    ),
 ##removed for react api functionality
 }
+
 
 EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'testing@example.com'
