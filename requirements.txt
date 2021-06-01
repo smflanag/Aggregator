@@ -54,7 +54,7 @@ sockjs-tornado==1.0.3
 soupsieve==1.7.3
 text-unidecode==1.2
 tornado==5.0.1
-urllib3==1.22
+urllib3==1.26.5
 vine==1.1.4
 virtualenv==15.1.0
 virtualenv-clone==0.2.6
